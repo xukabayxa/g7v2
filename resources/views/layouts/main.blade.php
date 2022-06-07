@@ -69,9 +69,11 @@
                 <img src="{{ asset('img/logo/logo_mini.png') }}" alt="G7-Autocare" class="brand-image brand-mini" style="opacity: 1">
             </a>
             <!-- Sidebar -->
+            <!-- nếu tài khoản là admin hoặc nhân viên uptek -->
             @if(Auth::user()->type == 1 || Auth::user()->type == 2)
             @include('partial.common.uptek_sidebar')
             @endif
+            <!-- nếu tài khoản g7 hoăc nhân vien g7 -->
             @if(Auth::user()->type == 3 || Auth::user()->type == 5)
             @include('partial.common.g7_sidebar')
             @endif

@@ -34,7 +34,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item has-treeview {{ request()->is('common/services') || request()->is('uptek/services*') ? 'menu-open' : '' }}">
+            <li class="nav-item has-treeview {{ request()->is('uptek/services') || request()->is('uptek/services*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fab fa-ups"></i>
                     <p>
@@ -51,14 +51,14 @@
                     </li>
                     @if (Auth::user()->can('Thêm dịch vụ'))
                     <li class="nav-item">
-                        <a href="{{ route('Service.create') }}" class="nav-link {{ Request::routeIs('Service.create') ? 'active' : '' }}">
+                        <a href="{{ route('UptekService.create') }}" class="nav-link {{ Request::routeIs('UptekService.create') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Thêm mới dịch vụ</p>
                         </a>
                     </li>
                     @endIf
                     <li class="nav-item">
-                        <a href="{{ route('Service.index') }}" class="nav-link {{ Request::routeIs('Service.index') ? 'active' : '' }}">
+                        <a href="{{ route('UptekService.index') }}" class="nav-link {{ Request::routeIs('UptekService.index') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Danh sách dịch vụ</p>
                         </a>

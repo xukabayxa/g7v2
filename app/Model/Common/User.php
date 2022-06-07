@@ -20,7 +20,6 @@ class User extends Authenticatable implements JWTSubject
     public const SUPER_ADMIN = 1;
     public const UPTEK = 2;
     public const G7 = 3;
-    public const NHOM_G7 = 4;
     public const NHAN_VIEN_G7 = 5;
 
     public CONST USER_TYPES = [
@@ -35,10 +34,6 @@ class User extends Authenticatable implements JWTSubject
         [
             'id' => 3,
             'name' => 'G7',
-        ],
-        [
-            'id' => 4,
-            'name' => 'Nhóm G7',
         ],
         [
             'id' => 5,
@@ -208,8 +203,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getAccessTypes() {
-        if ($this->type == self::SUPER_ADMIN) return [self::UPTEK, self::G7, self::NHOM_G7];
-        if ($this->type == self::UPTEK) return [self::G7, self::NHOM_G7];
+        if ($this->type == self::SUPER_ADMIN) return [self::UPTEK, self::G7];
+        if ($this->type == self::UPTEK) return [self::G7];
         if ($this->type == self::G7) return [self::NHAN_VIEN_G7];
         return [];
     }

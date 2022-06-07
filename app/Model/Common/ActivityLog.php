@@ -37,9 +37,10 @@ class ActivityLog extends Model
 
 		if (auth()->user()->type == User::G7 || auth()->user()->type == User::NHAN_VIEN_G7) {
 			$result = $result->where('g7_id', auth()->user()->g7_id);
-		} else if (auth()->user()->type == User::NHOM_G7) {
-			$result = $result->whereIn('g7_id', auth()->user()->g7_ids);
 		}
+//        else if (auth()->user()->type == User::NHOM_G7) {
+//			$result = $result->whereIn('g7_id', auth()->user()->g7_ids);
+//		}
 
 		$result = $result->where('time', '>', date('Y-m-d'))
 			->orderBy('time', 'DESC')

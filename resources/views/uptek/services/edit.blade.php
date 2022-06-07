@@ -23,7 +23,7 @@ Chỉnh sửa thông tin dịch vụ
       $scope.loading.submit = true;
       $.ajax({
         type: 'POST',
-        url: "{!! route('Service.update', $object->id) !!}",
+        url: "{!! route('UptekService.update', $object->id) !!}",
         headers: {
           'X-CSRF-TOKEN': CSRF_TOKEN
         },
@@ -33,7 +33,7 @@ Chỉnh sửa thông tin dịch vụ
         success: function(response) {
           if (response.success) {
             toastr.success(response.message);
-            window.location.href = "{{ route('Service.index') }}";
+            window.location.href = "{{ route('UptekService.index') }}";
           } else {
             toastr.warning(response.message);
             $scope.errors = response.errors;

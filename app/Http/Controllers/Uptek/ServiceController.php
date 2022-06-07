@@ -23,8 +23,8 @@ use App\Helpers\FileHelper;
 
 class ServiceController extends Controller
 {
-  	protected $view = 'uptek.services';
-	protected $route = 'Service';
+  	protected $view = 'g7.services';
+	protected $route = 'G7Service';
 
 	public function index()
 	{
@@ -85,6 +85,7 @@ class ServiceController extends Controller
 
 	public function store(Request $request)
 	{
+
 		$rule = [
 			'products' => 'nullable|array|min:1',
 			'products.*.product_id' => 'required|exists:products,id',
@@ -101,7 +102,7 @@ class ServiceController extends Controller
 			'service_type_id' => 'required|exists:service_types,id',
 			'name' => 'required|max:255|unique:services,name',
 			'image' => 'required|file|mimes:jpg,jpeg,png|max:3000',
-			'points' => 'required|integer'
+//			'points' => 'required|integer'
 		];
 
 		$translate = [
@@ -130,9 +131,10 @@ class ServiceController extends Controller
 		try {
 			$object = new ThisModel();
 			$object->name = $request->name;
-			$object->code = randomString(20);
 			$object->points = $request->points;
+			$object->status = $request->status ?? 1;
 			$object->service_type_id = $request->service_type_id;
+			$object->g7_id = auth()->user()->g7_id;
 			$object->save();
 
 			$object->generateCode();

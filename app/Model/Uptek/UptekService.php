@@ -12,9 +12,8 @@ use stdClass;
 use App\Model\Common\File;
 use App\Model\G7\BillService;
 
-class Service extends Model
+class UptekService extends BaseModel
 {
-    protected $fillable = ['name', 'status', 'points', 'service_type_id', 'created_by', 'updated_by', 'code' ,'g7_id', 'is_uptek'];
     public CONST STATUSES = [
         [
             'id' => 1,
@@ -38,29 +37,29 @@ class Service extends Model
         return $this->hasMany(BillService::class,'service_id','id');
     }
 
-	public function image()
+    public function image()
     {
         return $this->morphOne(File::class, 'model');
     }
 
     public function products()
     {
-        return $this->hasMany(ServiceProduct::class,'service_id','id');
+        return $this->hasMany(UptekServiceProduct::class,'service_id','id');
     }
 
     public function service_vehicle_categories()
     {
-        return $this->hasMany(ServiceVehicleCategory::class, 'service_id', 'id');
+        return $this->hasMany(UptekServiceVehicleCategory::class, 'service_id', 'id');
     }
 
-	public function service_vehicle_category_groups()
+    public function service_vehicle_category_groups()
     {
-        return $this->hasMany(ServiceVehicleCategoryGroup::class, 'service_id', 'id');
+        return $this->hasMany(UptekServiceVehicleCategoryGroup::class, 'service_id', 'id');
     }
 
     public function service_vehicle_category_group_products()
     {
-        return $this->hasMany(ServiceVehicleCategoryGroupProduct::class, 'service_id', 'id');
+        return $this->hasMany(UptekServiceVehicleCategoryGroupProduct::class, 'service_id', 'id');
     }
 
     public function g7Info()
@@ -69,7 +68,7 @@ class Service extends Model
     }
 
     public function canDelete() {
-        if(Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK ||  Auth::user()->type == User::G7) {
+        if(Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK) {
             if($this->bills->count() > 0) {
                 return false;
             } else {
@@ -81,13 +80,11 @@ class Service extends Model
 
     public function canEdit()
     {
-        return in_array(Auth::user()->type, [User::SUPER_ADMIN, User::UPTEK, User::G7]);
+        return Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK;
     }
 
     public static function searchByFilter($request) {
         $result = self::query();
-
-        $result = $result->where('g7_id', auth()->user()->g7_id);
 
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%'.$request->name.'%');
@@ -117,27 +114,27 @@ class Service extends Model
     }
 
     public function syncVehicleCategories($serviceVehicleCategories) {
-		$serviceVehicleCategories = $serviceVehicleCategories ?: [];
+        $serviceVehicleCategories = $serviceVehicleCategories ?: [];
         $ids = array_map('getId', $serviceVehicleCategories);
-		$delete_categories = ServiceVehicleCategory::where('service_id', $this->id)->whereNotIn('id', $ids)->get();
-		foreach ($delete_categories as $c) {
-			$c->removeFromDB();
-		}
-		foreach ($serviceVehicleCategories as $serviceVehicleCategory) {
-			if (isset($serviceVehicleCategory['id'])) $item = ServiceVehicleCategory::where('service_id', $this->id)->where('id', $serviceVehicleCategory['id'])->first();
-			else $item = new ServiceVehicleCategory();
-			$item->service_id = $this->id;
-			$item->vehicle_category_id = $serviceVehicleCategory['vehicle_category_id'];
-			$item->save();
-			$item->syncGroups($serviceVehicleCategory['groups']);
-		}
+        $delete_categories = UptekServiceVehicleCategory::where('service_id', $this->id)->whereNotIn('id', $ids)->get();
+        foreach ($delete_categories as $c) {
+            $c->removeFromDB();
+        }
+        foreach ($serviceVehicleCategories as $serviceVehicleCategory) {
+            if (isset($serviceVehicleCategory['id'])) $item = UptekServiceVehicleCategory::where('service_id', $this->id)->where('id', $serviceVehicleCategory['id'])->first();
+            else $item = new UptekServiceVehicleCategory();
+            $item->service_id = $this->id;
+            $item->vehicle_category_id = $serviceVehicleCategory['vehicle_category_id'];
+            $item->save();
+            $item->syncGroups($serviceVehicleCategory['groups']);
+        }
     }
 
     public function syncProducts($serviceProducts) {
-        ServiceProduct::where('service_id', $this->id)->delete();
+        UptekServiceProduct::where('service_id', $this->id)->delete();
         if ($serviceProducts) {
             foreach ($serviceProducts as $serviceProduct) {
-                $item = new ServiceProduct();
+                $item = new UptekServiceProduct();
                 $item->service_id = $this->id;
                 $item->product_id = $serviceProduct['product_id'];
                 $item->qty = $serviceProduct['qty'];
@@ -183,9 +180,9 @@ class Service extends Model
     //     $json->success = false;
 
     //     if (Auth::user()->type != User::G7 || !Auth::user()->g7_id) {
-	// 		$json->message = "Không phải tài khoản G7";
-	// 		return $json;
-	// 	}
+    // 		$json->message = "Không phải tài khoản G7";
+    // 		return $json;
+    // 	}
 
     //     foreach ($this->products as $p) {
     //         $g7_product = G7Product::where('root_product_id', $p->product_id)
@@ -255,7 +252,7 @@ class Service extends Model
     //     return $result;
     // }
 
-	public static function searchDataForBill($request) {
+    public static function searchDataForBill($request) {
         $result = ServiceVehicleCategoryGroup::from('service_vehicle_category_groups as gsvcp')
             ->join('service_vehicle_categories as gsvc', 'gsvcp.parent_id', '=', 'gsvc.id')
             ->join('services as gs', 'gsvcp.service_id', '=', 'gs.id')
@@ -290,28 +287,28 @@ class Service extends Model
         return $result;
     }
 
-	public static function searchAllForBill($vehicle_category_id) {
+    public static function searchAllForBill($vehicle_category_id) {
         $result = ServiceVehicleCategoryGroup::from('service_vehicle_category_groups as gsvcp')
             ->join('service_vehicle_categories as gsvc', 'gsvcp.parent_id', '=', 'gsvc.id')
             ->join('services as gs', 'gsvcp.service_id', '=', 'gs.id')
             ->where('gs.status', 1)
-			->where('gsvc.vehicle_category_id', $vehicle_category_id)
+            ->where('gsvc.vehicle_category_id', $vehicle_category_id)
             ->orderBy('gs.name', 'asc')
             ->select(['gsvcp.*'])
-			->with([
-				'service' => function($q) {
-					$q->with([
-						'image',
+            ->with([
+                'service' => function($q) {
+                    $q->with([
+                        'image',
                         'service_type'
-					]);
-				}
-			])
-			->get();
+                    ]);
+                }
+            ])
+            ->get();
 
         return $result;
     }
 
-	public static function getDataForBill($service_vehicle_category_group_id) {
+    public static function getDataForBill($service_vehicle_category_group_id) {
         return ServiceVehicleCategoryGroup::where('id', $service_vehicle_category_group_id)
             ->with([
                 'service' => function($q) {
@@ -350,15 +347,5 @@ class Service extends Model
     public function generateCode() {
         $this->code = "DV-".generateCode(6, $this->id);
         $this->save();
-    }
-
-    public static function checkUniqueName($value, $fail, $attribute) {
-        $user = auth()->user();
-        $service = Service::query()->where(['g7_id' => $user->g7_id, 'name' => $value])->first();
-
-        if($service->count() >= 2) {
-            return $fail('đã tồn tại trên hệ thống');
-        }
-
     }
 }

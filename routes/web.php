@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         // Phân loại dịch vụ
-        Route::group(['prefix' => 'service-types', 'middleware' => 'checkType:'.User::UPTEK], function () {
+        Route::group(['prefix' => 'service-types', 'middleware' =>'checkType:'.User::SUPER_ADMIN.','.User::UPTEK.','.User::G7], function () {
             Route::get('/create', 'Common\ServiceTypeController@create')->name('ServiceType.create')->middleware('checkPermission:Thêm loại dịch vụ');
             Route::post('/', 'Common\ServiceTypeController@store')->name('ServiceType.store')->middleware('checkPermission:Thêm loại dịch vụ');
             Route::post('/{id}/update', 'Common\ServiceTypeController@update')->name('ServiceType.update')->middleware('checkPermission:Cập nhật loại dịch vụ');
@@ -177,7 +177,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/exportPDF','Uptek\FixedAssetController@exportPDF')->name('FixedAsset.exportPDF');
         });
 
-
+        // chuyển sang g7service-controller
         Route::group(['prefix' => 'services'], function () {
             Route::get('/', 'Uptek\ServiceController@index')->name('Service.index');
             Route::get('/searchData', 'Uptek\ServiceController@searchData')->name('Service.searchData');
@@ -239,14 +239,16 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-    Route::group(['prefix' => 'uptek', 'middleware' => 'checkType:'.User::UPTEK.','.User::SUPER_ADMIN], function () {
+    Route::group(['prefix' => 'uptek', 'middleware' => 'checkType:'.User::UPTEK.','.User::SUPER_ADMIN.','.User::G7], function () {
         // Service
         Route::group(['prefix' => 'services'], function () {
-            Route::get('/create', 'Uptek\ServiceController@create')->name('Service.create')->middleware('checkPermission:Thêm dịch vụ');
-            Route::post('/', 'Uptek\ServiceController@store')->name('Service.store')->middleware('checkPermission:Thêm dịch vụ');
-            Route::get('/{id}/edit', 'Uptek\ServiceController@edit')->name('Service.edit')->middleware('checkPermission:Sửa dịch vụ');
-            Route::post('/{id}/update', 'Uptek\ServiceController@update')->name('Service.update')->middleware('checkPermission:Sửa dịch vụ');
-            Route::get('/{id}/delete', 'Uptek\ServiceController@delete')->name('Service.delete')->middleware('checkPermission:Xóa dịch vụ');
+            Route::get('/', 'Uptek\UptekServiceController@index')->name('UptekService.index');
+            Route::get('/searchData', 'Uptek\UptekServiceController@searchData')->name('UptekService.searchData');
+            Route::get('/create', 'Uptek\UptekServiceController@create')->name('UptekService.create')->middleware('checkPermission:Thêm dịch vụ');
+            Route::post('/', 'Uptek\UptekServiceController@store')->name('UptekService.store')->middleware('checkPermission:Thêm dịch vụ');
+            Route::get('/{id}/edit', 'Uptek\UptekServiceController@edit')->name('UptekService.edit')->middleware('checkPermission:Sửa dịch vụ');
+            Route::post('/{id}/update', 'Uptek\UptekServiceController@update')->name('UptekService.update')->middleware('checkPermission:Sửa dịch vụ');
+            Route::get('/{id}/delete', 'Uptek\UptekServiceController@delete')->name('UptekService.delete')->middleware('checkPermission:Xóa dịch vụ');
         });
 
         // Cấu hình chung
@@ -405,10 +407,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', 'G7\G7ServiceController@index')->name('G7Service.index');
             Route::get('/{id}/edit', 'G7\G7ServiceController@edit')->name('G7Service.edit');
             Route::get('/{id}/delete', 'G7\G7ServiceController@delete')->name('G7Service.delete');
-            Route::get('/exportExcel','G7\G7ServiceController@exportExcel')->name('G7Service.exportExcel');
             Route::get('/searchData', 'G7\G7ServiceController@searchData')->name('G7Service.searchData');
             Route::get('/searchDataForBill', 'G7\G7ServiceController@searchDataForBill')->name('G7Service.searchDataForBill');
             Route::get('/getDataForBill', 'G7\G7ServiceController@getDataForBill')->name('G7Service.getDataForBill');
+            Route::get('/getServiceUptek', 'G7\G7ServiceController@getServiceUptek')->name('G7Service.getServiceUptek');
         });
 
         Route::group(['prefix' => 'fund-accounts'], function () {
@@ -572,9 +574,6 @@ Route::group(['middleware' => 'auth'], function () {
 		});
     });
 
-    Route::group(['prefix' => 'g7_group', 'middleware' => 'checkType:'.User::NHOM_G7], function () {
-
-    });
 
     Route::group(['prefix' => 'g7_employee', 'middleware' => 'checkType:'.User::NHAN_VIEN_G7], function () {
 

@@ -116,10 +116,10 @@ class Customer extends BaseModel
             if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
                 $result = $result->where('g7_id', Auth::user()->g7_id);
             }
-            if(Auth::user()->type == User::NHOM_G7) {
-                $g7_ids = User::find(Auth::user()->id)->g7s->pluck('id');
-                $result = $result->whereIn('g7_id',$g7_ids);
-            }
+//            if(Auth::user()->type == User::NHOM_G7) {
+//                $g7_ids = User::find(Auth::user()->id)->g7s->pluck('id');
+//                $result = $result->whereIn('g7_id',$g7_ids);
+//            }
         } else {
             $result = $result->where('name', $request->name_mobile)->orWhere('mobile',$request->name_mobile);
         }

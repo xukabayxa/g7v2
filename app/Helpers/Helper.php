@@ -4,38 +4,42 @@ use \Carbon\Carbon;
 use \App\Model\Uptek\G7Info;
 
 if (!function_exists('getPrintHeader')) {
-    function getPrintHeader() {
-        $g7 = G7Info::where('id',Auth::user()->g7_id)->first();
+    function getPrintHeader()
+    {
+        $g7 = G7Info::where('id', Auth::user()->g7_id)->first();
         $result = '<div style="display:flex;">';
-        $result .= '<div><img style="max-width: 155px; margin-right: 10px" class="g7-logo" src="'.url('/').'/img/logo/g7_logo.png" alt=""></div>';
-        $result .= '<div><strong>'. $g7->adress .'</strong>';
-        $result .=  '<p style = "margin: 0 0 3px">Địa chỉ: <strong>189 Phan Trọng Tuệ, Thanh Trì, Hà Nội</strong></p>';
-        $result .=  ' <p style = "margin: 0 0 3px">Số điện thoại: <strong>'. $g7->mobile .'</strong></p></div></div>';
+        $result .= '<div><img style="max-width: 155px; margin-right: 10px" class="g7-logo" src="' . url('/') . '/img/logo/g7_logo.png" alt=""></div>';
+        $result .= '<div><strong>' . $g7->adress . '</strong>';
+        $result .= '<p style = "margin: 0 0 3px">Địa chỉ: <strong>189 Phan Trọng Tuệ, Thanh Trì, Hà Nội</strong></p>';
+        $result .= ' <p style = "margin: 0 0 3px">Số điện thoại: <strong>' . $g7->mobile . '</strong></p></div></div>';
         return $result;
     }
 }
 
 if (!function_exists('getPrint57Header')) {
-    function getPrint57Header() {
-        $g7 = G7Info::where('id',Auth::user()->g7_id)->first();
+    function getPrint57Header()
+    {
+        $g7 = G7Info::where('id', Auth::user()->g7_id)->first();
         $result = '<div style="text-align: center">';
-        $result .= '<div style="width:100%"><img style="max-width: 75px; margin: 0 auto" class="g7-logo" src="'.url('/').'/img/logo/g7_logo.png" alt=""></div>';
-        $result .= '<p><strong>'. $g7->name .'</strong></p>';
-        $result .=  '<p style = "margin: 0 0 3px"> <strong>'. $g7->adress .'</strong></p>';
-        $result .=  ' <p style = "margin: 0 0 3px"><strong>'. $g7->mobile .'</strong></p></div></div>';
+        $result .= '<div style="width:100%"><img style="max-width: 75px; margin: 0 auto" class="g7-logo" src="' . url('/') . '/img/logo/g7_logo.png" alt=""></div>';
+        $result .= '<p><strong>' . $g7->name . '</strong></p>';
+        $result .= '<p style = "margin: 0 0 3px"> <strong>' . $g7->adress . '</strong></p>';
+        $result .= ' <p style = "margin: 0 0 3px"><strong>' . $g7->mobile . '</strong></p></div></div>';
         return $result;
     }
 }
 
 if (!function_exists('randomString')) {
-    function randomString($length = 8) {
+    function randomString($length = 8)
+    {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 }
 
 if (!function_exists('array_find_index')) {
-    function array_find_index($arr, $func) {
+    function array_find_index($arr, $func)
+    {
         for ($i = 0; $i < count($arr); $i++) {
             if ($func($arr[$i])) return $i;
         }
@@ -44,13 +48,15 @@ if (!function_exists('array_find_index')) {
 }
 
 if (!function_exists('formatDate')) {
-    function formatDate($date) {
+    function formatDate($date)
+    {
         return \Carbon\Carbon::parse($date)->format('d/m/Y');
     }
 }
 
 if (!function_exists('array_find_el')) {
-    function array_find_el($arr, $func) {
+    function array_find_el($arr, $func)
+    {
         $index = array_find_index($arr, $func);
         if ($index != -1) return $arr[$index];
         return null;
@@ -58,8 +64,9 @@ if (!function_exists('array_find_el')) {
 }
 
 if (!function_exists('withUnits')) {
-    function withUnits() {
-        return function($q) {
+    function withUnits()
+    {
+        return function ($q) {
             $q->leftJoin('units', 'product_units.unit_id', '=', 'units.id')
                 ->orderBy('product_units.is_base', 'DESC')
                 ->orderBy('product_units.unit_coefficient', 'ASC')
@@ -69,30 +76,34 @@ if (!function_exists('withUnits')) {
 }
 
 if (!function_exists('getStatus')) {
-    function getStatus($status, $statuses) {
-        $obj = array_find_el($statuses, function($el) use ($status) {
+    function getStatus($status, $statuses)
+    {
+        $obj = array_find_el($statuses, function ($el) use ($status) {
             return $el['id'] == $status;
         });
         if (!$obj) return '';
-        return '<span class="badge badge-'.$obj['type'].'">'.$obj['name'].'</span>';
+        return '<span class="badge badge-' . $obj['type'] . '">' . $obj['name'] . '</span>';
     }
 }
 if (!function_exists('generateCode')) {
-    function generateCode($length, $value) {
-        $value = (string) $value;
+    function generateCode($length, $value)
+    {
+        $value = (string)$value;
         $cur_length = strlen($value);
         if ($length <= $cur_length) return $value;
-        return str_repeat("0", $length - $cur_length).$value;
+        return str_repeat("0", $length - $cur_length) . $value;
     }
 }
 if (!function_exists('formatCurrent')) {
-    function formatCurrent($value) {
+    function formatCurrent($value)
+    {
         return number_format($value, 0, '', ',');
     }
 }
 
 if (!function_exists('formatCurrency')) {
-    function formatCurrency($number, $precision = 0) {
+    function formatCurrency($number, $precision = 0)
+    {
         if (!$number) return '0';
         if ($precision != 0) {
             $result = number_format($number, $precision, '.', ',');
@@ -105,13 +116,15 @@ if (!function_exists('formatCurrency')) {
     }
 }
 if (!function_exists('setDefault')) {
-    function setDefault($obj, $field, $default = null) {
+    function setDefault($obj, $field, $default = null)
+    {
         return $obj[$field] ?? $default;
     }
 }
 
 if (!function_exists('messageFromNotification')) {
-    function messageFromNotification($notification) {
+    function messageFromNotification($notification)
+    {
         $message = [
             'id' => $notification->id,
             'url' => $notification->url,
@@ -126,13 +139,15 @@ if (!function_exists('messageFromNotification')) {
 }
 
 if (!function_exists('getId')) {
-    function getId($obj) {
+    function getId($obj)
+    {
         return isset($obj['id']) ? $obj['id'] : null;
     }
 }
 
 if (!function_exists('addDay')) {
-    function addDay($date) {
+    function addDay($date)
+    {
         $day = new \Carbon\Carbon($date);
         $day->addDay();
         return $day;
@@ -140,22 +155,24 @@ if (!function_exists('addDay')) {
 }
 
 if (!function_exists('addDays')) {
-    function addDays($date, $day) {
+    function addDays($date, $day)
+    {
         $result = new \Carbon\Carbon($date);
         $result->addDays($day);
         return $result;
     }
 }
 
-function time_since($since) {
+function time_since($since)
+{
     $chunks = array(
-        array(60 * 60 * 24 * 365 , 'năm'),
-        array(60 * 60 * 24 * 30 , 'tháng'),
+        array(60 * 60 * 24 * 365, 'năm'),
+        array(60 * 60 * 24 * 30, 'tháng'),
         array(60 * 60 * 24 * 7, 'tuần'),
-        array(60 * 60 * 24 , 'ngày'),
-        array(60 * 60 , 'giờ'),
-        array(60 , 'phút'),
-        array(1 , 'giây')
+        array(60 * 60 * 24, 'ngày'),
+        array(60 * 60, 'giờ'),
+        array(60, 'phút'),
+        array(1, 'giây')
     );
 
     for ($i = 0, $j = count($chunks); $i < $j; $i++) {
@@ -166,11 +183,12 @@ function time_since($since) {
         }
     }
 
-    $print = ($count == 1) ? '1 '.$name : "$count {$name} trước";
+    $print = ($count == 1) ? '1 ' . $name : "$count {$name} trước";
     return $print;
 }
 
-function successResponse($message = "", $data = [], $other_data = []) {
+function successResponse($message = "", $data = [], $other_data = [])
+{
     return response()->json(array_merge([
         'success' => true,
         'message' => $message ?: "Thao tác thành công",
@@ -178,7 +196,8 @@ function successResponse($message = "", $data = [], $other_data = []) {
     ], $other_data));
 }
 
-function errorResponse($message = "", $errors = null) {
+function errorResponse($message = "", $errors = null)
+{
     return response()->json([
         'success' => false,
         'message' => $message ?: "Thao tác thất bại",
@@ -186,7 +205,7 @@ function errorResponse($message = "", $errors = null) {
     ]);
 }
 
-if (! function_exists('pct_change')) {
+if (!function_exists('pct_change')) {
     /**
      * Generate percentage change between two numbers.
      *
@@ -198,7 +217,7 @@ if (! function_exists('pct_change')) {
     function pct_change($old, $new, int $precision = 2): float
     {
         if ($old == $new) {
-            return  0;
+            return 0;
         } elseif ($old == 0) {
             return 100;
         }
@@ -209,20 +228,23 @@ if (! function_exists('pct_change')) {
     }
 }
 
-function fillReport($template, $data) {
-	foreach ($data as $key => $value) {
-		$template = preg_replace("/\{\{".$key."\}\}/", $value, $template);
-	}
-	return clearNull($template);
+function fillReport($template, $data)
+{
+    foreach ($data as $key => $value) {
+        $template = preg_replace("/\{\{" . $key . "\}\}/", $value, $template);
+    }
+    return clearNull($template);
 }
 
-function clearNull($template) {
-	$template = preg_replace("/\{\{.*?\}\}/", "", $template);
-	return $template;
+function clearNull($template)
+{
+    $template = preg_replace("/\{\{.*?\}\}/", "", $template);
+    return $template;
 }
 
 if (!function_exists('checkDiff')) {
-    function checkDiff($val1, $val2) {
+    function checkDiff($val1, $val2)
+    {
         if ($val1 == $val2) return false;
         if ($val1 == 0 && $val2 != 0) return true;
         if ($val1 != 0 && $val2 == 0) return true;
@@ -232,16 +254,18 @@ if (!function_exists('checkDiff')) {
 }
 
 if (!function_exists('getVersions')) {
-    function getVersions($id, $class) {
+    function getVersions($id, $class)
+    {
         return \App\Model\Common\Version::where('model_id', $id)->where('model_type', $class)
             ->select(['id', 'created_at as time', 'model_id', 'created_by'])
             ->with([
                 'histories',
-                'user' => function($q) {
+                'user' => function ($q) {
                     $q->select(['id', 'name', 'avatar']);
                 }
             ])
             ->orderBy('id', 'DESC')
             ->get();
     }
+
 }

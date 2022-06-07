@@ -178,7 +178,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('Service.index') }}" class="nav-link {{ Request::routeIs('Service.index') ? 'active' : '' }}">
+                        <a href="{{ route('G7Service.index') }}" class="nav-link {{ Request::routeIs('G7Service.index') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Dịch vụ</p>
                         </a>

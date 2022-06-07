@@ -1,16 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\G7;
+namespace App\Http\Controllers\Uptek;
 
-use App\Model\Uptek\Service;
-use App\Model\Uptek\ServiceProduct;
-use App\Model\Uptek\ServiceVehicleCategory;
-use App\Model\Uptek\ServiceVehicleCategoryGroup;
-use App\Model\Uptek\ServiceVehicleCategoryGroupProduct;
-use App\Model\Uptek\UptekService;
 use Illuminate\Http\Request;
-use App\Model\Uptek\Service as ThisModel;
-use Illuminate\Validation\Rule;
+use App\Model\Uptek\UptekService as ThisModel;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
 use Validator;
@@ -28,10 +21,10 @@ use App\Model\Common\VehicleCategory;
 use App\Model\G7\BillService;
 use App\Helpers\FileHelper;
 
-class G7ServiceController extends Controller
+class UptekServiceController extends Controller
 {
-    protected $view = 'g7.services';
-    protected $route = 'G7Service';
+    protected $view = 'uptek.services';
+    protected $route = 'UptekService';
 
     public function index()
     {
@@ -54,6 +47,9 @@ class G7ServiceController extends Controller
             })
             ->editColumn('updated_at', function ($object) {
                 return Carbon::parse($object->updated_at)->format("d/m/Y");
+            })
+            ->editColumn('updated_by', function ($object) {
+                return $object->user_update->name;
             })
             ->editColumn('service_type', function ($object) {
                 return $object->service_type->name;
@@ -89,7 +85,6 @@ class G7ServiceController extends Controller
 
     public function store(Request $request)
     {
-        $user = auth()->user();
 
         $rule = [
             'products' => 'nullable|array|min:1',
@@ -105,13 +100,7 @@ class G7ServiceController extends Controller
             'service_vehicle_categories.*.groups.*.products.*.product_id' => 'required|exists:products,id',
             'service_vehicle_categories.*.groups.*.products.*.qty' => 'required|numeric|min:0|max:99999999|not_in:0',
             'service_type_id' => 'required|exists:service_types,id',
-//            'name' => 'required|max:255|unique:services,name',
-            'name' => ['required', 'max:255',
-                Rule::unique('services')->where(function ($query) use($user) {
-                    return $query->where('g7_id', $user->g7_id)
-                        ;
-                }),
-            ],
+            'name' => 'required|max:255|unique:uptek_services,name',
             'image' => 'required|file|mimes:jpg,jpeg,png|max:3000',
 //			'points' => 'required|integer'
         ];
@@ -145,7 +134,6 @@ class G7ServiceController extends Controller
             $object->points = $request->points;
             $object->status = $request->status ?? 1;
             $object->service_type_id = $request->service_type_id;
-            $object->g7_id = auth()->user()->g7_id;
             $object->save();
 
             $object->generateCode();
@@ -167,7 +155,6 @@ class G7ServiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = auth()->user();
         $rule = [
             'products' => 'nullable|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
@@ -182,14 +169,7 @@ class G7ServiceController extends Controller
             'service_vehicle_categories.*.groups.*.products.*.product_id' => 'required|exists:products,id',
             'service_vehicle_categories.*.groups.*.products.*.qty' => 'required|numeric|min:0|max:99999999|not_in:0',
             'service_type_id' => 'required|exists:service_types,id',
-//            'name' => 'required|max:255|unique:services,name,'.$id,
-            'name' => ['required', 'max:255',
-                Rule::unique('services')->where(function ($query) use($user, $id) {
-                    return $query->where('g7_id', $user->g7_id)
-                        ;
-                })->ignore($id),
-            ],
-
+            'name' => 'required|max:255|unique:uptek_services,name,'.$id,
             'image' => 'nullable|file|mimes:jpg,jpeg,png|max:3000',
             'points' => 'required|integer'
         ];
@@ -242,7 +222,6 @@ class G7ServiceController extends Controller
             $object->name = $request->name;
             $object->points = $request->points;
             $object->service_type_id = $request->service_type_id;
-            $object->updated_by = auth()->user()->id;
             $object->save();
             $object->syncVehicleCategories($request->service_vehicle_categories);
             $object->syncProducts($request->products);
@@ -308,120 +287,5 @@ class G7ServiceController extends Controller
         $json->success = true;
         $json->data = ThisModel::searchAllForBill($request->vehicle_category_id);
         return Response::json($json);
-    }
-
-    public function getServiceUptek() {
-        $user = auth()->user();
-
-        $servicesUptek = UptekService::query()->with([
-            'products' => function($q) {
-                $q->with([
-                    'product' => function($q) {
-                        $q->with([
-                            'category' => function($q) {
-                                $q->select(['id', 'name']);
-                            }
-                        ]);
-                    }
-                ]);
-            },
-            'service_vehicle_categories' => function($q) {
-                $q->with([
-                    'groups' => function($q) {
-                        $q->with([
-                            'products' => function($q) {
-                                $q->with([
-                                    'product'
-                                ]);
-                            },
-                        ]);
-                    }
-                ]);
-            },
-            'image'
-        ])->get();
-
-        DB::beginTransaction();
-        try {
-            // xóa tất cả dịch vụ uptek cũ
-            $serviceUptekCurrent = Service::query()
-                ->where(['g7_id' => $user->g7_id, 'is_uptek' => true])
-                ->whereNotIn('updated_by', [$user->id]);
-
-            foreach ($serviceUptekCurrent->get() as $serivce_uptek_current) {
-                $serivce_uptek_current->products()->delete();
-
-                foreach ($serivce_uptek_current->service_vehicle_categories as $uptek_service_vehicle_category_current) {
-                    foreach ($uptek_service_vehicle_category_current->groups as $uptek_service_vehicle_category_group_current) {
-                        $uptek_service_vehicle_category_group_current->products()->delete();
-                    }
-                    $uptek_service_vehicle_category_current->groups()->delete();
-                }
-                $serivce_uptek_current->service_vehicle_categories()->delete();
-            }
-
-            $serviceUptekCurrent->delete();
-            ////
-            foreach ($servicesUptek as $service_uptek) {
-                $attribute_service_uptek = ($service_uptek->getAttributes());
-                unset($attribute_service_uptek['id']);
-                $attribute_service_uptek['g7_id'] = $user->g7_id;
-                $attribute_service_uptek['is_uptek'] = 1;
-                $service = new Service();
-                $service->fill($attribute_service_uptek);
-                $service->save();
-                $service->generateCode();
-                $service->save();
-
-                foreach ($service_uptek->service_vehicle_categories as $uptek_service_vehicle_category) {
-                    $service_vehicle_category = new ServiceVehicleCategory();
-                    $service_vehicle_category->service_id = $service->id;
-                    $service_vehicle_category->vehicle_category_id = $uptek_service_vehicle_category->vehicle_category_id;
-                    $service_vehicle_category->save();
-
-                    foreach ($uptek_service_vehicle_category->groups as $uptek_group) {
-                        $service_vehicle_category_group = new ServiceVehicleCategoryGroup();
-                        $service_vehicle_category_group->name = $uptek_group->name;
-                        $service_vehicle_category_group->parent_id = $service_vehicle_category->id;
-                        $service_vehicle_category_group->service_id = $service->id;
-                        $service_vehicle_category_group->points = $uptek_group->points;
-                        $service_vehicle_category_group->service_price = $uptek_group->service_price;
-                        $service_vehicle_category_group->save();
-
-                        foreach ($uptek_group->products as $uptek_product) {
-                            $service_vehicle_category_group_products = new ServiceVehicleCategoryGroupProduct();
-                            $service_vehicle_category_group_products->qty = $uptek_product->qty;
-                            $service_vehicle_category_group_products->product_id = $uptek_product->product_id;
-                            $service_vehicle_category_group_products->parent_id  = $service_vehicle_category_group->id;
-                            $service_vehicle_category_group_products->service_id  = $service->id;
-
-                            $service_vehicle_category_group_products->save();
-                        }
-                    }
-                }
-
-                foreach ($service_uptek->products as $uptekProduct ) {
-                    $service_products = new ServiceProduct();
-                    $service_products->qty = $uptekProduct->qty;
-                    $service_products->service_id = $service->id;
-                    $service_products->product_id = $uptekProduct->product_id;
-
-                    $service_products->save();
-                }
-
-            }
-
-            DB::commit();
-            $message = array(
-                "message" => "Thao tác thành công!",
-                "alert-type" => "success"
-            );
-
-            return redirect()->back()->with($message);
-        }catch (\Exception $exception) {
-            DB::rollBack();
-            dd($exception->getMessage());
-        }
-
     }
 }

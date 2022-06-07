@@ -110,6 +110,9 @@
                         <i class="fa fa-plus"></i> Tạo mới
                     </a>`;
                 }
+                if (options.sync_service) {
+                    html += `<a class="btn btn-warning" onclick="syncService();" style="margin-left: 5px; color:#fff" ><i class="fab fa-ups"></i> Lấy dịch vụ</a>`;
+                }
                 html += `</div>`;
             }
             html += "</div>";

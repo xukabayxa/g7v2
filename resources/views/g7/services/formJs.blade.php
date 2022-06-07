@@ -3,7 +3,7 @@ $scope.loading = {};
 let product_options = {
     title: "Vật tư",
     ajax: {
-        url: "{!! route('G7Product.searchData') !!}",
+        url: "{!! route('Product.searchData') !!}",
         data: function (d, context) {
             DATATABLE.mergeSearch(d, context);
             d.status = 1;
@@ -25,6 +25,11 @@ let product_options = {
     ]
 };
 
+createServiceTypeCallback = function(response) {
+    $scope.form.all_service_types.push(response);
+    $scope.form.service_type_id = response.id;
+}
+
 $scope.searchProduct = new BaseSearchModal(
     product_options,
     function(obj) {
@@ -42,7 +47,7 @@ $scope.searchVehicleCategoryProductModal = new BaseSearchModal(
 $scope.chooseProduct = function(obj) {
     sendRequest({
         type: 'GET',
-        url: `/g7/products/${obj.id}/getData`,
+        url: `/common/products/${obj.id}/getData`,
         success: function(response) {
             if (response.success) {
                 $scope.form.addProduct(response.data);
@@ -54,18 +59,18 @@ $scope.chooseProduct = function(obj) {
 }
 
 $scope.searchVehicleCategoryProduct = function(g) {
-    $scope.currentVehicleCategory = g;
+    $scope.currentVehicleCategoryGroup = g;
     $scope.searchVehicleCategoryProductModal.open();
 }
 
 $scope.chooseVehicleCategoryProduct = function(obj) {
-    if (!$scope.currentVehicleCategory) return;
+    if (!$scope.currentVehicleCategoryGroup) return;
     sendRequest({
         type: 'GET',
-        url: `/g7/products/${obj.id}/getData`,
+        url: `/common/products/${obj.id}/getData`,
         success: function(response) {
             if (response.success) {
-                $scope.currentVehicleCategory.addProduct(response.data);
+                $scope.currentVehicleCategoryGroup.addProduct(response.data);
                 toastr.success('Thêm thành công');
                 $scope.$applyAsync();
             }

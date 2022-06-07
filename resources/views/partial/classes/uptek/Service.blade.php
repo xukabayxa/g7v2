@@ -69,7 +69,6 @@
             service_vehicle_categories: this.service_vehicle_categories.map(val => val.submit_data),
             products: this.products.map(val => val.submit_data)
         }
-
         data = jsonToFormData(data);
         let image = this.image.submit_data;
         if (image) data.append('image', image);

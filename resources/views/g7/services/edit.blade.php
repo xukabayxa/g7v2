@@ -13,12 +13,11 @@ Chỉnh sửa thông tin dịch vụ
 </div>
 @endsection
 @section('script')
-@include('partial.classes.g7.G7Service')
+@include('partial.classes.uptek.Service')
 <script>
   app.controller('Service', function ($scope, $http) {
-    $scope.form = new G7Service(@json($object), {scope: $scope});
-
-    @include('g7.services.formJs')
+    $scope.form = new Service(@json($object), {scope: $scope});
+    @include('uptek.services.formJs')
 
     $scope.submit = function() {
       $scope.loading.submit = true;

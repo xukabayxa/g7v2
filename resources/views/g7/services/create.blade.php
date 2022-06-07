@@ -11,58 +11,15 @@ Thêm mới dịch vụ
 <div ng-controller="Service" ng-cloak>
   @include('g7.services.form')
 </div>
+@include('common.service_types.createServiceType')
 @endsection
+
 @section('script')
-@include('partial.classes.g7.G7Service')
+@include('partial.classes.uptek.Service')
 <script>
   app.controller('Service', function ($scope, $http) {
-    $scope.form = new G7Service({}, {scope: $scope});
-    let service_options = {
-      title: "Tìm kiếm dịch vụ",
-      ajax: {
-          url: "{!! route('Service.searchData') !!}",
-          data: function (d, context) {
-              DATATABLE.mergeSearch(d, context);
-              d.status = 1;
-          }
-      },
-      columns: [
-          {data: 'DT_RowIndex', orderable: false, title: "STT"},
-          {data: 'name', title: "Tên dịch vụ"},
-          {data: 'code', title: "Mã dịch vụ"},
-          {data: 'service_type', title: "Loại dịch vụ"},
-      ],
-      search_columns: [
-        {data: 'name', search_type: "text", placeholder: "Tên dịch vụ"},
-        {data: 'code', search_type: "text", placeholder: "Mã dịch vụ"},
-        {
-          data: 'service_type', search_type: "select", placeholder: "Loại dịch vụ",
-          column_data: @json(App\Model\Common\ServiceType::getForSelect())
-        },
-      ]
-    };
 
-    $scope.searchService = new BaseSearchModal(
-        service_options,
-        function(obj) {
-            $scope.chooseService(obj);
-        }
-    );
-
-    $scope.chooseService = function(obj) {
-      sendRequest({
-          type: 'GET',
-          url: `/common/services/${obj.id}/getDataForG7Service`,
-          success: function(response) {
-              if (response.success) {
-                $scope.form.useRootService(response.data);
-                $scope.searchService.close();
-                toastr.success('Thêm thành công');
-                $scope.$applyAsync();
-              } else toastr.warning(response.message);
-          }
-      });
-    }
+    $scope.form = new Service({}, {scope: $scope});
 
     @include('g7.services.formJs')
 

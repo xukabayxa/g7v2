@@ -26,7 +26,7 @@ Quản lý dịch vụ
 <script>
 	let datatable = new DATATABLE('table-list', {
 		ajax: {
-			url: '{!! route('Service.searchData') !!}',
+			url: '{!! route('UptekService.searchData') !!}',
 			data: function (d, context) {
 				DATATABLE.mergeSearch(d, context);
 			}
@@ -41,7 +41,7 @@ Quản lý dịch vụ
 				data: 'status',
 				title: "Trạng thái",
 				render: function (data) {
-					return getStatus(data, @json(App\Model\Uptek\Service::STATUSES));
+					return getStatus(data, @json(App\Model\Uptek\UptekService::STATUSES));
 				}
 			},
 			// {data: 'updated_at', title: "Ngày cập nhật"},
@@ -57,11 +57,11 @@ Quản lý dịch vụ
 			},
 			{
 				data: 'status', search_type: "select", placeholder: "Trạng thái",
-				column_data: @json(App\Model\Uptek\Service::STATUSES)
+				column_data: @json(App\Model\Uptek\UptekService::STATUSES)
 			}
 		],
 		search_by_time: false,
-		create_link: "{{ route('Service.create') }}"
+		create_link: "{{ route('UptekService.create') }}"
 	}).datatable;
 
 	app.controller('Bill', function ($rootScope, $scope, $http) {
