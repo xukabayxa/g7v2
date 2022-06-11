@@ -173,9 +173,7 @@ class PromoCampaignController extends Controller
             }
 
 			$object->syncCheckpoints($request->checkpoints);
-			if (auth()->user()->type == User::G7) $object->g7s()->sync([auth()->user()->g7_id]);
-			else if (!$object->for_all) $object->g7s()->sync($request->g7_ids);
-
+			$object->g7s()->sync([auth()->user()->g7_id]);
 			DB::commit();
 			return successResponse();
 		} catch (Exception $e) {

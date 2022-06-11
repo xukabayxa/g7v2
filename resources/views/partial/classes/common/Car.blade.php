@@ -1,7 +1,7 @@
 <script>
     class Car extends BaseClass {
         before(form) {
-            this.all_customers = @json(\App\Model\Common\Customer::select('id','name')->get());
+            this.g7_customers = @json(\App\Model\Common\Customer::select('id','name')->where('g7_id', Auth::user()->g7_id)->get());
             // this.categories = @json(\App\Model\Common\VehicleCategory::select('id','name')->get());
             this.manufacts = @json(\App\Model\Common\VehicleManufact::select('id','name')->get());
             this.license_plates = @json(\App\Model\Common\LicensePlate::getForSelect());

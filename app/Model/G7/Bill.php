@@ -19,7 +19,6 @@ class Bill extends BaseModel
 {
     protected $table = 'bills';
 
-
     public CONST DA_DUYET = 1;
     public CONST DANG_TAO = 3;
     public CONST DA_CHOT = 2;
@@ -339,11 +338,9 @@ class Bill extends BaseModel
     public static function searchByFilter($request) {
         $result = self::query();
 
-        if (Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK) {
-
-        } else if (Auth::user()->type == User::NHOM_G7) {
-
-        } else $result = $result->where('g7_id', Auth::user()->g7_id);
+        if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
+        }
 
 		if ($request->type == 'export') {
 			$result = $result->where('status', self::DA_DUYET);

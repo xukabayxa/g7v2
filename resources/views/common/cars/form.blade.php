@@ -14,7 +14,7 @@
                 <ui-select-match placeholder="Chọn chủ xe">
                     <% $item.name %>
                 </ui-select-match>
-                <ui-select-choices repeat="item.id as item in (form.all_customers | filter: $select.search)">
+                <ui-select-choices repeat="item.id as item in (form.g7_customers | filter: $select.search)">
                     <span ng-bind="item.name"></span>
                 </ui-select-choices>
             </ui-select>

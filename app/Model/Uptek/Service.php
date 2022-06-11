@@ -296,6 +296,7 @@ class Service extends Model
             ->join('services as gs', 'gsvcp.service_id', '=', 'gs.id')
             ->where('gs.status', 1)
 			->where('gsvc.vehicle_category_id', $vehicle_category_id)
+            ->where('g7_id', Auth::user()->g7_id)
             ->orderBy('gs.name', 'asc')
             ->select(['gsvcp.*'])
 			->with([

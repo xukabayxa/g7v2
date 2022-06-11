@@ -35,7 +35,7 @@ class Car extends BaseModel
     }
 
     public function canEdit() {
-        if($this->created_by == Auth::user()->id || Auth::user()->type == 1 ) {
+        if($this->created_by == Auth::user()->id || Auth::user()->g7_id == $this->g7_id ) {
             return true;
         } else {
             return false;
@@ -47,10 +47,10 @@ class Car extends BaseModel
         return $this->hasMany(Bill::class,'car_id','id');
     }
 
-    public function licensePlate()
-    {
-        return $this->belongsTo('App\Model\Common\LicensePlate','license_plate_id','id');
-    }
+    // public function licensePlate()
+    // {
+    //     return $this->belongsTo('App\Model\Common\LicensePlate','license_plate_id','id');
+    // }
 
     public function customers()
     {
@@ -77,28 +77,22 @@ class Car extends BaseModel
     public static function searchByFilter($request) {
         $result = self::with('customers','manufact','type','category');
 
-        if(empty($request->license_plate) && empty($request->customer_mobile)) {
-            if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
-                $result = $result->where('g7_id', Auth::user()->g7_id);
-            }
-            if(Auth::user()->type == User::NHOM_G7) {
-                $g7_ids = User::find(Auth::user()->id)->g7s->g7_id;
-                $result = $result->whereIn('g7_id',$g7_ids);
-            }
-        } else {
-            if (!empty($request->license_plate)) {
-                $result = $result->where('license_plate',$request->license_plate);
-            }
-
-            if(!empty($request->customer_mobile)) {
-                $result = $result->whereHas('customers', function ($query) use($request) {
-                    $query->where('name', $request->customer_mobile)->orWhere('mobile',$request->customer_mobile);
-                });
-            }
+        if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
         }
 
         if($request->g7_id) {
             $result = $result->where('g7_id', $request->g7_id);
+        }
+
+        if ($request->license_plate) {
+            $result = $result->where('license_plate','like','%'.$request->license_plate.'%');
+        }
+
+        if($request->customer_mobile) {
+            $result = $result->whereHas('customers', function ($query) use($request) {
+                $query->where('mobile','like','%'.$request->customer_mobile.'%');
+            });
         }
 
         if (!empty($request->manufact)) {

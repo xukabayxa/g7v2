@@ -235,10 +235,8 @@ class User extends Authenticatable implements JWTSubject
 
         if (Auth::user()->type == self::G7) {
             $result = $result->where('g7_id', Auth::user()->g7_id);
-        } else if (Auth::user()->type == self::NHOM_G7) {
-            $result = $result->where('g7_id', Auth::user()->g7_id);
         }
-
+        
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%'.$request->name.'%');
         }

@@ -90,6 +90,9 @@ class PromoCampaign extends BaseModel
     {
         $result = self::query();
 
+        if (Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
+        }
         if ($request->type == 'use') {
             $result = $result->where('status', self::ACTIVE)
                 ->where(function ($q) {

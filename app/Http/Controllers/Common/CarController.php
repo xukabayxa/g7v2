@@ -290,7 +290,8 @@ class CarController extends Controller
 
 	public function searchForSelect(Request $request) {
 		$data = ThisModel::select(['id', 'license_plate as name'])
-			->where('license_plate', $request->license_plate)
+			->where('g7_id',Auth::user()->g7_id)
+			->where('license_plate','like','%'.$request->license_plate.'%')
 			->get();
 		return successResponse("", $data, ['draw' => $request->draw]);
     }
