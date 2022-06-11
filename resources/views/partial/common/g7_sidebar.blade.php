@@ -185,13 +185,13 @@
                     </li>
 
                     <li class="nav-item has-treeview">
-                        <a href="{{ route('Product.index') }}" class="nav-link {{ Request::routeIs('Product.index') ? 'active' : '' }}">
+                        <a href="{{ route('G7Product.index') }}" class="nav-link {{ Request::routeIs('G7Product.index') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Hàng hóa</p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('Product.index') }}" class="nav-link {{ Request::routeIs('Product.index') ? 'active' : '' }}">
+                                <a href="{{ route('G7Product.index') }}" class="nav-link {{ Request::routeIs('G7Product.index') ? 'active' : '' }}">
                                     <i class="far fas  fa-angle-right nav-icon"></i>
                                     <p>Danh sách Hàng hóa</p>
                                 </a>

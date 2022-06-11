@@ -361,17 +361,17 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         Route::group(['prefix' => 'products'], function () {
-            // Route::get('/create', 'G7\G7ProductController@create')->name('G7Product.create');
-            // Route::post('/{id}/update', 'G7\G7ProductController@update')->name('G7Product.update');
-            // Route::post('/', 'G7\G7ProductController@store')->name('G7Product.store');
-            // Route::get('/', 'G7\G7ProductController@index')->name('G7Product.index');
+            Route::get('/create', 'G7\G7ProductController@create')->name('G7Product.create');
+            Route::post('/{id}/update', 'G7\G7ProductController@update')->name('G7Product.update');
+            Route::post('/', 'G7\G7ProductController@store')->name('G7Product.store');
+            Route::get('/', 'G7\G7ProductController@index')->name('G7Product.index');
             Route::get('/editPrice', 'G7\G7ProductController@editPrice')->name('G7Product.editPrice')->middleware('checkPermission:Cập nhật giá hàng hóa');
             Route::post('/updatePrice', 'G7\G7ProductController@updatePrice')->name('G7Product.updatePrice')->middleware('checkPermission:Cập nhật giá hàng hóa');
-            // Route::get('/{id}/edit', 'G7\G7ProductController@edit')->name('G7Product.edit');
-            // Route::get('/{id}/delete', 'G7\G7ProductController@delete')->name('G7Product.delete');
-            // Route::get('/exportExcel','G7\G7ProductController@exportExcel')->name('G7Product.exportExcel');
-            // Route::get('/searchData', 'G7\G7ProductController@searchData')->name('G7Product.searchData');
-            // Route::get('/{id}/getData', 'G7\G7ProductController@getData')->name('G7Product.getData');
+            Route::get('/{id}/edit', 'G7\G7ProductController@edit')->name('G7Product.edit');
+            Route::get('/{id}/delete', 'G7\G7ProductController@delete')->name('G7Product.delete');
+            Route::get('/exportExcel','G7\G7ProductController@exportExcel')->name('G7Product.exportExcel');
+            Route::get('/searchData', 'G7\G7ProductController@searchData')->name('G7Product.searchData');
+            Route::get('/{id}/getData', 'G7\G7ProductController@getData')->name('G7Product.getData');
         });
 
         Route::group(['prefix' => 'g7_fixed_assets'], function () {

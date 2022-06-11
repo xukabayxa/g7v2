@@ -32,6 +32,7 @@ class G7ProductController extends Controller
 
     public function searchData(Request $request)
     {
+
 		$objects = ThisModel::searchByFilter($request);
 
         return Datatables::of($objects)
