@@ -105,13 +105,6 @@ class UserController extends Controller
 			]);
 		}
 
-		if ($request->type == ThisModel::NHOM_G7) {
-			$rule = array_merge($rule, [
-				'g7_ids' => 'required|array|min:1',
-				'g7_ids.*' => 'required|exists:g7_infos,id'
-			]);
-		}
-
 		$validate = Validator::make(
 			$request->all(),
 			$rule,
@@ -139,8 +132,6 @@ class UserController extends Controller
 
 			if ($object->type == ThisModel::G7) {
 				$object->g7_id = $request->g7_id;
-			} else if ($object->type == ThisModel::NHOM_G7) {
-				$object->g7s()->sync($request->g7_ids);
 			} else if ($object->type == ThisModel::NHAN_VIEN_G7) {
 				$object->g7_id = Auth::user()->g7_id;
 			}
@@ -178,13 +169,6 @@ class UserController extends Controller
 			]);
 		}
 
-		if ($object->type == ThisModel::NHOM_G7) {
-			$rule = array_merge($rule, [
-				'g7_ids' => 'required|array|min:1',
-				'g7_ids.*' => 'required|exists:g7_infos,id'
-			]);
-		}
-
 		$validate = Validator::make(
 			$request->all(),
 			$rule,
@@ -201,9 +185,6 @@ class UserController extends Controller
 			$object->email = $request->email;
 			if ($request->password != null) $object->password = bcrypt($request->password);
 			$object->status = $request->status;
-			if ($object->type == ThisModel::NHOM_G7) {
-				$object->g7s()->sync($request->g7_ids);
-			}
 			$object->save();
 
 			$object->roles()->sync($request->roles);
