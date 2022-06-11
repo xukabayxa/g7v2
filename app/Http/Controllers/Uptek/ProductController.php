@@ -17,6 +17,7 @@ use DB;
 use App\Helpers\FileHelper;
 use App\Model\Common\User;
 use Auth;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -30,7 +31,7 @@ class ProductController extends Controller
 
 	public function filterDataForBill(Request $request)
 	{
-		$data = ThisModel::with([
+		$data = ThisModel::where('g7_id', Auth::user()->g7_id)->with([
 			'image',
 			'g7_price'
 		]);
@@ -109,7 +110,13 @@ class ProductController extends Controller
 		$validate = Validator::make(
 			$request->all(),
 			[
-				'name' => 'required|unique:products,name',
+				// 'name' => 'required|unique:products,name',
+				'name' => [
+					'required',
+					Rule::unique('products')->where(function($q) {
+						$q->where('g7_id', Auth::user()->g7_id);
+					})
+				],
 				'product_category_id' => 'required|exists:product_categories,id',
 				'unit_id' => 'required|exists:units,id',
 				'price' => 'required|integer',
@@ -139,6 +146,9 @@ class ProductController extends Controller
 			$object->points = $request->points ?: 0;
 			$object->note = $request->note;
 			$object->status = 1;
+			if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+				$object->g7_id = Auth::user()->g7_id;
+			}
 			$object->save();
 
 			$object->generateCode();
@@ -241,8 +251,6 @@ class ProductController extends Controller
 				"alert-type" => "success"
 			);
 		}
-
-
         return redirect()->route($this->route.'.index')->with($message);
 	}
 

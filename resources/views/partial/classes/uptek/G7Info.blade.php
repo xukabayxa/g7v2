@@ -22,6 +22,7 @@
         get submit_data() {
             let data = {
                 name: this.name,
+                code: this.code,
                 mobile: this.mobile,
                 email: this.email,
                 province_id: this.province_id,

@@ -283,4 +283,5 @@ class User extends Authenticatable implements JWTSubject
 	public function getG7IdsAttribute() {
 		return UserG7Info::where('user_id', $this->id)->pluck('g7_id')->toArray();
 	}
+    
 }

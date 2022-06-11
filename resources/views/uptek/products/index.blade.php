@@ -8,11 +8,11 @@ Quản lý hàng hóa - vật tư
 @endsection
 
 @section('buttons')
-@if(Auth::user()->type == App\Model\Common\User::UPTEK || Auth::user()->type == App\Model\Common\User::SUPER_ADMIN)
+
 <a href="javascript:void(0)" class="btn btn-outline-success" data-toggle="modal" href="javascript:void(0)" data-target="#createProduct" class="btn btn-info" ng-click="errors = null"><i class="fa fa-plus"></i> Thêm mới</a>
 <a href="javascript:void(0)" target="_blank" data-href="{{ route('Product.exportExcel') }}" class="btn btn-info export-button"><i class="fas fa-file-excel"></i> Xuất file excel</a>
 <a href="javascript:void(0)" target="_blank" data-href="{{ route('Product.exportPDF') }}" class="btn btn-warning export-button"><i class="far fa-file-pdf"></i> Xuất file pdf</a>
-@endif
+
 @endsection
 
 @section('content')
@@ -33,7 +33,7 @@ Quản lý hàng hóa - vật tư
                     <div class="modal-dialog" style="max-width: 850px">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="semi-bold">Sửa vật tư</h4>
+                                <h4 class="semi-bold">Sửa Hàng hoá</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">

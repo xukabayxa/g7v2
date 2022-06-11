@@ -72,7 +72,7 @@ class Product extends BaseModel
         ]);
 
         if (Auth::user()->g7_id) {
-            $result = $result->where('status', 1);
+            $result = $result->where('g7_id', Auth::user()->g7_id);
         }
 
         if (!empty($request->name)) {
@@ -121,7 +121,7 @@ class Product extends BaseModel
 
     public function generateCode()
     {
-        $this->code = "HH-" . generateCode(6, $this->id);
+        $this->code = User::find(Auth::user()->id)->g7Info->code .'.'. generateCode(6, $this->id);
         $this->save();
     }
 }

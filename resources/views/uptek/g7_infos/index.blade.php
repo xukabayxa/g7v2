@@ -45,6 +45,15 @@ Quản lý hồ sơ Gara
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="form-group custom-group">
+                                                    <label class="form-label required-label">Mã (Tối đa 20 ký tự)</label>
+                                                    <input class="form-control" type="text" ng-model="formEdit.code">
+                                                    <span class="invalid-feedback d-block" role="alert">
+                                                        <strong><% errors.code[0] %></strong>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group custom-group">
                                                     <label class="form-label required-label">Số điện thoại</label>
@@ -202,6 +211,7 @@ Quản lý hồ sơ Gara
 				}
             },
             {data: 'name', title: 'Tên'},
+            {data: 'code', title: 'Mã'},
             {data: 'mobile', title: 'Điện thoại'},
             {data: 'full_adress', title: 'Địa chỉ'},
             {

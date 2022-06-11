@@ -59,6 +59,7 @@ class G7InfoController extends Controller
 			$request->all(),
 			[
 				'name' => 'required|unique:products,name',
+				'code' => 'required|max:20|unique:products,code',
 				'mobile' => 'required|regex:/^(0)[0-9]{9,11}$/|unique:g7_infos,mobile',
 				'status' => 'required|in:0,1',
 				'email' => 'nullable|email',
@@ -92,6 +93,7 @@ class G7InfoController extends Controller
 		try {
 			$object = new ThisModel();
 			$object->name = $request->name;
+			$object->code = $request->code;
 			$object->mobile = $request->mobile;
 			$object->email = $request->email;
 			$object->province_id = $request->province_id;
@@ -121,6 +123,7 @@ class G7InfoController extends Controller
 			$request->all(),
 			[
 				'name' => 'required|unique:products,name,'.$id,
+				'code' => 'required|max:20|unique:products,code,'.$id,
 				'mobile' => 'required|regex:/^(0)[0-9]{9,11}$/|unique:g7_infos,mobile,'.$id,
 				'status' => 'required|in:0,1',
 				'email' => 'nullable|email',
@@ -160,6 +163,7 @@ class G7InfoController extends Controller
 				return Response::json($json);
 			}
 			$object->name = $request->name;
+			$object->code = $request->code;
 			$object->mobile = $request->mobile;
 			$object->email = $request->email;
 			$object->province_id = $request->province_id;
