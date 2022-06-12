@@ -477,15 +477,35 @@
                 </a>
                 @endif
             </li>
-            {{-- Tin tức --}}
-            <li class="nav-item has-treeview">
-                <a href="{{ route('Post.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-newspaper"></i>
+        
+            <li class="nav-item has-treeview  {{ request()->is('g7/configs') || request()->is('g7/customer-levels') || request()->is('g7/accumulate-point/*') ? 'menu-open' : '' }} ">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-cog"></i>
                     <p>
-                        Tin tức G7
+                        Cấu hình hệ thống
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('Config.edit') }}" class="nav-link  {{ Request::routeIs('Config.edit') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Cấu hình chung</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('AccumulatePoint.edit') }}" class="nav-link  {{ Request::routeIs('AccumulatePoint.edit') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Cấu hình điểm thường</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('CustomerLevel.index') }}" class="nav-link  {{ Request::routeIs('CustomerLevel.index') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Quản lý level khách hàng</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>

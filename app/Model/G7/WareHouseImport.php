@@ -6,6 +6,8 @@ use App\Model\BaseModel;
 use App\Model\Product;
 use Illuminate\Database\Eloquent\Model;
 use App\Model\Uptek\PrintTemplate;
+use Auth;
+use App\Model\Common\User;
 
 class WareHouseImport extends BaseModel
 {
@@ -79,6 +81,10 @@ class WareHouseImport extends BaseModel
         $result = self::with(['supplier', 'products' => function($q) {
             $q->with('product');
         }]);
+
+        if (Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
+        }
 
         if (!empty($request->code)) {
             $result = $result->where('code', 'like', '%'.$request->code.'%');

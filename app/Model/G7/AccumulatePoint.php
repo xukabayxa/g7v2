@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Uptek;
+namespace App\Model\G7;
 use Auth;
 use App\Model\BaseModel;
 use App\Model\Common\Customer;
@@ -11,8 +11,11 @@ use DB;
 class AccumulatePoint extends BaseModel
 {
     protected $table = 'accumulate_points';
+    protected $fillable = ['value_to_point_rate','point_to_money_rate','allow_pay','accumulate_pay_point','type','g7_id'];
 
-
+    // Type = 1 Tich luy theo gia tri hoa don
+    // Type = 2 Tich luy theo diem cua hang hoa, dich vu
+    
     public function users()
     {
         return $this->hasMany(User::class,'g7_id','id');
@@ -32,11 +35,11 @@ class AccumulatePoint extends BaseModel
 
     public static function getPointRate()
     {
-        return self::where('id', 1)->first()->point_to_money_rate;
+        return self::where('g7_id', Auth::user()->g7_id)->first()->point_to_money_rate;
     }
 
     public static function getDataForEdit($id) {
-        return self::where('id', $id)
+        return self::where('g7_id', Auth::user()->g7_id)
             ->with(['users'])
             ->firstOrFail();
     }

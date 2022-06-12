@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Uptek;
+namespace App\Model\G7;
 use Auth;
 use App\Model\BaseModel;
 use App\Model\Common\Customer;
@@ -13,19 +13,9 @@ class CustomerLevel extends BaseModel
 {
     protected $table = 'customer_levels';
 
-    public function customers()
-    {
-        return $this->hasMany(Customer::class,'g7_id','id');
-    }
-
-    public function users()
-    {
-        return $this->hasMany(User::class,'g7_id','id');
-    }
-
     public function canEdit()
     {
-        if(Auth::user()->type == 1 || Auth::user()->type == 2) {
+        if(Auth::user()->g7_id == $this->g7_id) {
             return true;
         } else {
             return false;
@@ -33,13 +23,16 @@ class CustomerLevel extends BaseModel
     }
 
     public function canDelete() {
-        return true;
+        if(Auth::user()->g7_id == $this->g7_id) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
     public static function searchByFilter($request) {
-        $result = self::with([
-        ]);
+        $result = self::where('g7_id', Auth::user()->g7_id);
 
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%'.$request->name.'%');
@@ -51,6 +44,7 @@ class CustomerLevel extends BaseModel
 
     public static function getForSelect() {
         return self::where('status', 1)
+            ->where('g7_id', Auth::user()->g7_id)
             ->select(['id', 'name'])
             ->orderBy('name', 'ASC')
             ->get();

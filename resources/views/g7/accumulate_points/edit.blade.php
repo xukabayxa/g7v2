@@ -5,24 +5,19 @@
 @endsection
 
 @section('title')
-Cấu hình chung
+Cấu hình điểm tích lũy
 @endsection
-
-@section('page_title')
-Cấu hình chung
-@endsection
-
-
 @section('content')
-<div ng-controller="Config" ng-cloak>
-  @include('uptek.configs.form')
+<div ng-controller="AccumulatePoint" ng-cloak>
+  @include('g7.accumulate_points.form')
 </div>
 @endsection
 @section('script')
-@include('partial.classes.uptek.Config')
+@include('partial.classes.g7.AccumulatePoint')
 <script>
-  app.controller('Config', function ($scope, $http) {
-    $scope.form = new Config(@json($object), {scope: $scope});
+  app.controller('AccumulatePoint', function ($scope, $http) {
+    $scope.form = new AccumulatePoint(@json($object), {scope: $scope});
+    console.log($scope.form);
     $scope.loading = {};
 
     $scope.submit = function() {
@@ -30,7 +25,7 @@ Cấu hình chung
       console.log($scope.form.submit_data);
       $.ajax({
         type: 'POST',
-        url: "{!! route('Config.update') !!}",
+        url: "{!! route('AccumulatePoint.update') !!}",
         headers: {
           'X-CSRF-TOKEN': CSRF_TOKEN
         },
@@ -38,6 +33,7 @@ Cấu hình chung
         success: function(response) {
           if (response.success) {
             toastr.success(response.message);
+            // window.location.href = "{{ route('AccumulatePoint.edit') }}"
           } else {
             toastr.warning(response.message);
             $scope.errors = response.errors;

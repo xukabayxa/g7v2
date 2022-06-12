@@ -22,8 +22,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::createRecord(['id' => 6, 'name' => 'Xóa hàng hóa', 'display_name' => 'Xóa', 'group' => 'Quản lý hàng hóa'], [User::UPTEK]);
         Permission::createRecord(['id' => 95, 'name' => 'Cập nhật giá hàng hóa', 'display_name' => 'Cập nhật giá hàng hóa', 'group' => 'Quản lý hàng hóa'], [User::G7, User::NHAN_VIEN_G7]);
 
-		Permission::createRecord(['id' => 7, 'name' => 'Cấu hình tích điểm', 'display_name' => 'Tích điểm', 'group' => 'Cấu hình'], [User::UPTEK]);
-        Permission::createRecord(['id' => 8, 'name' => 'Cấu hình level khách hàng', 'display_name' => 'Level khách hàng', 'group' => 'Cấu hình'], [User::UPTEK]);
+		Permission::createRecord(['id' => 7, 'name' => 'Cấu hình tích điểm', 'display_name' => 'Tích điểm', 'group' => 'Cấu hình'], [User::G7, User::NHAN_VIEN_G7]);
+        Permission::createRecord(['id' => 8, 'name' => 'Cấu hình level khách hàng', 'display_name' => 'Level khách hàng', 'group' => 'Cấu hình'], [User::G7, User::NHAN_VIEN_G7]);
 
 		Permission::createRecord(['id' => 9, 'name' => 'Thêm bài viết', 'display_name' => 'Tạo mới', 'group' => 'Quản lý bài viết'], [User::UPTEK]);
         Permission::createRecord(['id' => 10, 'name' => 'Sửa bài viết', 'display_name' => 'Sửa', 'group' => 'Quản lý bài viết'], [User::UPTEK]);
@@ -51,7 +51,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::createRecord(['id' => 23, 'name' => 'Sửa loại dịch vụ', 'display_name' => 'Sửa', 'group' => 'Quản lý loại dịch vụ'], [User::UPTEK]);
         Permission::createRecord(['id' => 24, 'name' => 'Xóa loại dịch vụ', 'display_name' => 'Xóa', 'group' => 'Quản lý loại dịch vụ'], [User::UPTEK]);
 
-		Permission::createRecord(['id' => 25, 'name' => 'Cấu hình chung', 'display_name' => 'Cấu hình chung', 'group' => 'Cấu hình'], [User::UPTEK]);
+		Permission::createRecord(['id' => 25, 'name' => 'Cấu hình chung', 'display_name' => 'Cấu hình chung', 'group' => 'Cấu hình'], [User::G7, User::NHAN_VIEN_G7]);
 
 		Permission::createRecord(['id' => 26, 'name' => 'Thêm hồ sơ nhân viên', 'display_name' => 'Tạo mới', 'group' => 'Quản lý hồ sơ nhân viên'], [User::G7, User::NHAN_VIEN_G7]);
         Permission::createRecord(['id' => 27, 'name' => 'Sửa hồ sơ nhân viên', 'display_name' => 'Sửa', 'group' => 'Quản lý hồ sơ nhân viên'], [User::G7, User::NHAN_VIEN_G7]);

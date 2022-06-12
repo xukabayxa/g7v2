@@ -51,11 +51,9 @@ class WarehouseExport extends BaseModel
 			'bill'
 		]);
 
-        if (Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK) {
-
-        } else if (Auth::user()->type == User::NHOM_G7) {
-
-        } else $result = $result->where('g7_id', Auth::user()->g7_id);
+        if (Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
+        }
 
         if (!empty($request->code)) {
             $result = $result->where('code', 'like', '%'.$request->code.'%');

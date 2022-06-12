@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Uptek;
+namespace App\Http\Controllers\G7;
 
 use Illuminate\Http\Request;
-use App\Model\Uptek\CustomerLevel as ThisModel;
+use App\Model\G7\CustomerLevel as ThisModel;
 use Yajra\DataTables\DataTables;
 use Validator;
 use \stdClass;
@@ -15,11 +15,12 @@ use \Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use App\Helpers\FileHelper;
 use DB;
-use App\Model\Uptek\AccumulatePoint;
+use App\Model\G7\AccumulatePoint;
+use Auth;
 
 class CustomerLevelController extends Controller
 {
-	protected $view = 'uptek.customer_levels';
+	protected $view = 'g7.customer_levels';
 	protected $route = 'CustomerLevel';
 
 	public function index()
@@ -84,6 +85,7 @@ class CustomerLevelController extends Controller
 			$object = new ThisModel();
 			$object->name = $request->name;
 			$object->point = $request->point;
+			$object->g7_id = Auth::user()->g7_id;
 			$object->save();
 
 			DB::commit();
@@ -160,7 +162,7 @@ class CustomerLevelController extends Controller
 
 	// Xuất Excel
     public function exportExcel() {
-        return (new FastExcel(ThisModel::all()))->download('danh_sach_vat_tu.xlsx', function ($object) {
+        return (new FastExcel(ThisModel::all()))->download('level_khach_hang.xlsx', function ($object) {
             return [
                 'ID' => $object->id,
                 'Tên dòng xe' => $object->name,

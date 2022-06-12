@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Uptek;
+namespace App\Model\G7;
 use Auth;
 use App\Model\BaseModel;
 use App\Model\Common\Customer;
@@ -11,7 +11,7 @@ use DB;
 class Config extends BaseModel
 {
     protected $table = 'configs';
-    protected $fillable = [];
+    protected $fillable = ['g7_id', 'date_reminder'];
 
     
 }

@@ -82,12 +82,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('{id}/show','Common\BookingController@show')->name('Booking.show');
         });
 
-        //  Cấu hình level khách hàng
-        Route::group(['prefix' => 'customer-levels'], function () {
-            Route::get('/searchData', 'Uptek\CustomerLevelController@searchData')->name('CustomerLevel.searchData');
-
-        });
-
         Route::group(['prefix' => 'notifications'], function () {
             Route::get('/', 'Common\NotificationsController@index')->name('Notification.index');
             Route::get('/{id}/read', 'Common\NotificationsController@read')->name('Notification.read');
@@ -251,30 +245,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{id}/delete', 'Uptek\UptekServiceController@delete')->name('UptekService.delete')->middleware('checkPermission:Xóa dịch vụ');
         });
 
-        // Cấu hình chung
-        Route::group(['prefix' => 'configs', 'middleware' => 'checkPermission:Cập nhật cấu hình'], function () {
-            Route::get('/', 'Uptek\ConfigController@edit')->name('Config.edit')->middleware('checkPermission:Cập nhật cấu hình');
-            Route::post('/update', 'Uptek\ConfigController@update')->name('Config.update')->middleware('checkPermission:Cập nhật cấu hình');
-        });
-
-        // Cấu hình tích điểm
-        Route::group(['prefix' => 'accumulate-point', 'middleware' => 'checkPermission:Cấu hình tích điểm'], function () {
-            Route::get('config', 'Uptek\AccumulatePointController@edit')->name('AccumulatePoint.edit');
-            Route::post('/update', 'Uptek\AccumulatePointController@update')->name('AccumulatePoint.update');
-        });
-
-        //  Cấu hình level khách hàng
-        Route::group(['prefix' => 'customer-levels', 'middleware' => 'checkPermission:Cấu hình level khách hàng'], function () {
-            Route::get('/', 'Uptek\CustomerLevelController@index')->name('CustomerLevel.index');
-            Route::get('/create', 'Uptek\CustomerLevelController@create')->name('CustomerLevel.create');
-            Route::post('/{id}/update', 'Uptek\CustomerLevelController@update')->name('CustomerLevel.update');
-            Route::post('/', 'Uptek\CustomerLevelController@store')->name('CustomerLevel.store');
-            Route::get('/{id}/getDataForEdit', 'Uptek\CustomerLevelController@getDataForEdit');
-            Route::get('/{id}/delete', 'Uptek\CustomerLevelController@delete')->name('CustomerLevel.delete');
-            Route::get('/exportExcel','Uptek\CustomerLevelController@exportExcel')->name('CustomerLevel.exportExcel');
-
-        });
-
         // Vật tư
         Route::group(['prefix' => 'products'], function () {
             Route::get('/create', 'Uptek\ProductController@create')->name('Product.create')->middleware('checkPermission:Thêm hàng hóa');
@@ -316,6 +286,30 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'g7', 'middleware' => 'checkType:'.User::G7.','.User::NHAN_VIEN_G7], function () {
+        // Cấu hình chung
+        Route::group(['prefix' => 'configs', 'middleware' => 'checkPermission:Cập nhật cấu hình'], function () {
+            Route::get('/', 'G7\ConfigController@edit')->name('Config.edit')->middleware('checkPermission:Cập nhật cấu hình');
+            Route::post('/update', 'G7\ConfigController@update')->name('Config.update')->middleware('checkPermission:Cập nhật cấu hình');
+        });
+
+        //  Cấu hình level khách hàng
+        Route::group(['prefix' => 'customer-levels', 'middleware' => 'checkPermission:Cấu hình level khách hàng'], function () {
+            Route::get('/', 'G7\CustomerLevelController@index')->name('CustomerLevel.index');
+            Route::get('/searchData', 'G7\CustomerLevelController@searchData')->name('CustomerLevel.searchData');
+            Route::get('/create', 'G7\CustomerLevelController@create')->name('CustomerLevel.create');
+            Route::post('/{id}/update', 'G7\CustomerLevelController@update')->name('CustomerLevel.update');
+            Route::post('/', 'G7\CustomerLevelController@store')->name('CustomerLevel.store');
+            Route::get('/{id}/getDataForEdit', 'G7\CustomerLevelController@getDataForEdit');
+            Route::get('/{id}/delete', 'G7\CustomerLevelController@delete')->name('CustomerLevel.delete');
+            Route::get('/exportExcel','G7\CustomerLevelController@exportExcel')->name('CustomerLevel.exportExcel');
+        });
+
+        // Cấu hình tích điểm
+        Route::group(['prefix' => 'accumulate-point', 'middleware' => 'checkPermission:Cấu hình tích điểm'], function () {
+            Route::get('config', 'G7\AccumulatePointController@edit')->name('AccumulatePoint.edit');
+            Route::post('/update', 'G7\AccumulatePointController@update')->name('AccumulatePoint.update');
+        });
+
         // Hồ sơ nhân viên G7
         Route::group(['prefix' => 'g7-employees'], function () {
             Route::get('/create', 'G7\G7EmployeeController@create')->name('G7Employee.create')->middleware('checkPermission:Thêm hồ sơ nhân viên');
@@ -357,8 +351,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/exportExcel','G7\CalendarReminderController@exportExcel')->name('CalendarReminder.exportExcel');
             Route::get('/exportPDF','G7\CalendarReminderController@exportPDF')->name('CalendarReminder.exportPDF');
         });
-
-
 
         Route::group(['prefix' => 'products'], function () {
             Route::get('/create', 'G7\G7ProductController@create')->name('G7Product.create');

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Uptek;
+namespace App\Http\Controllers\G7;
 
 use Illuminate\Http\Request;
-use App\Model\Uptek\AccumulatePoint as ThisModel;
+use App\Model\G7\AccumulatePoint as ThisModel;
 use Yajra\DataTables\DataTables;
 use Validator;
 use \stdClass;
@@ -11,16 +11,18 @@ use Response;
 use App\Http\Controllers\Controller;
 use \Carbon\Carbon;
 use Illuminate\Validation\Rule;
+use App\Model\Common\User;
+use Auth;
 use DB;
 
 class AccumulatePointController extends Controller
 {
-	protected $view = 'uptek.accumulate_points';
+	protected $view = 'g7.accumulate_points';
 	protected $route = 'AccumulatePoint';
 
 	public function edit()
 	{
-		$object = ThisModel::where('id',1)->first();
+		$object = ThisModel::where('g7_id',Auth::user()->g7_id)->first();
 		return view($this->view.'.edit', compact('object'));
 	}
 
@@ -46,16 +48,22 @@ class AccumulatePointController extends Controller
 
 		DB::beginTransaction();
 		try {
-			$object = ThisModel::where('id',1)->first();
-			$object->value_to_point_rate = $request->value_to_point_rate;
-			$object->point_to_money_rate = $request->point_to_money_rate;
 			$request->allow_pay === 'true' ? $allow_pay = 1 : $allow_pay = 0;
 			$request->accumulate_pay_point === 'true' ? $accumulate_pay_point = 1 : $accumulate_pay_point = 0;
-			$object->allow_pay = $allow_pay;
-			$object->accumulate_pay_point = $accumulate_pay_point;
-			$object->type = $request->type;
 
-			$object->save();
+			ThisModel::updateOrCreate(
+				[
+					'g7_id' => Auth::user()->g7_id
+				],
+				[
+					'value_to_point_rate' => $request->value_to_point_rate,
+					'point_to_money_rate' => $request->point_to_money_rate,
+					'allow_pay' => $allow_pay,
+					'accumulate_pay_point' => $accumulate_pay_point,
+					'type' => $request->type,
+					'g7_id' => Auth::user()->g7_id
+				]
+			);
 
 			DB::commit();
 			$json->success = true;

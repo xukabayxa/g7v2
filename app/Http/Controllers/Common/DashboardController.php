@@ -9,7 +9,7 @@ use App\Model\G7\Bill;
 use App\Model\G7\PaymentVoucher;
 use App\Model\G7\ReceiptVoucher;
 use App\Model\G7\WareHouseImport;
-use App\Model\Uptek\Config;
+use App\Model\G7\Config;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $data = [];
         $g7_ids = [];
         // Lấy config nhắc lịch
-        $config = Config::where('id', 1)->first();
+        $config = Config::where('g7_id', Auth::user()->g7_id)->first();
         $date = $config ? $config->date_reminder : 0;
         $reminders = Car::whereBetween('registration_deadline',
             [Carbon::now()->subDays(1), Carbon::now()->addDays($date)])

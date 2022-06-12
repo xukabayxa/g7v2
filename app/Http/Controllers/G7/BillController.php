@@ -17,7 +17,7 @@ use Response;
 use Rap2hpoutre\FastExcel\FastExcel;
 use PDF;
 use App\Http\Controllers\Controller;
-use App\Model\Uptek\AccumulatePoint;
+use App\Model\G7\AccumulatePoint;
 use App\Model\Common\PromoCampaign;
 use \Carbon\Carbon;
 use DB;
@@ -275,8 +275,8 @@ class BillController extends Controller
 			}
 
 			// Tính điểm tích lũy
-			if(AccumulatePoint::where('id',1)->first()->type == 1) {
-				$points = ($object->cost_after_sale) / AccumulatePoint::where('id',1)->first()->value_to_point_rate;
+			if(AccumulatePoint::where('g7_id',Auth::user()->g7_id)->first()->type == 1) {
+				$points = ($object->cost_after_sale) / AccumulatePoint::where('g7_id',Auth::user()->g7_id)->first()->value_to_point_rate;
 			} else {
 				$points = $request->service_total_point + $request->product_total_point;
 			}
@@ -439,7 +439,7 @@ class BillController extends Controller
 
 			// Tính điểm tích lũy
 			if(AccumulatePoint::where('id',1)->first()->type == 1) {
-				$points = ($object->cost_after_sale) / AccumulatePoint::where('id',1)->first()->value_to_point_rate;
+				$points = ($object->cost_after_sale) / AccumulatePoint::where('g7_id',Auth::user()->g7_id)->first()->value_to_point_rate;
 			} else {
 				if($request->list_services) {
 					$points = $request->service_total_point + $request->product_total_point;

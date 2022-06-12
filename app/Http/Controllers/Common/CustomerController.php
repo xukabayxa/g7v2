@@ -17,7 +17,7 @@ use Auth;
 use Illuminate\Validation\Rule;
 use DateTime;
 use App\Model\Common\CarCustomer;
-use App\Model\Uptek\CustomerLevel;
+use App\Model\G7\CustomerLevel;
 
 class CustomerController extends Controller
 {
@@ -95,7 +95,7 @@ class CustomerController extends Controller
                 return $object->full_adress;
             })
 			->addColumn('level', function ($object) {
-				$level = CustomerLevel::where('point','<=', $object->accumulate_point)->orderBy('point','desc')->first();
+				$level = CustomerLevel::where('g7_id', Auth::user()->g7_id)->where('point','<=', $object->accumulate_point)->orderBy('point','desc')->first();
 				if($level) {
 					return $level->name;
 				} else {

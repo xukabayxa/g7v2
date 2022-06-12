@@ -26,13 +26,13 @@ Quản lý Level khách hàng
         </div>
     </div>
     {{-- Form tạo mới --}}
-    @include('uptek.customer_levels.create_customer_level')
-    @include('uptek.customer_levels.edit_customer_level')
+    @include('g7.customer_levels.create_customer_level')
+    @include('g7.customer_levels.edit_customer_level')
 </div>
 @endsection
 
 @section('script')
-@include('partial.classes.uptek.CustomerLevel')
+@include('partial.classes.g7.CustomerLevel')
 <script>
     let datatable = new DATATABLE('table-list', {
 		ajax: {
@@ -69,7 +69,7 @@ Quản lý Level khách hàng
             $scope.data = getRowData(this, datatable);
             $.ajax({
                 type: 'GET',
-                url: "/uptek/customer-levels/" + $scope.data.id + "/getDataForEdit",
+                url: "/g7/customer-levels/" + $scope.data.id + "/getDataForEdit",
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN
                 },
