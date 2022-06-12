@@ -55,17 +55,16 @@ class Product extends BaseModel
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
     }
 
-    public function g7_price()
-    {
-        return $this->hasOne(G7ProductPrice::class, 'product_id')->where('g7_id', Auth::user()->g7_id);
-    }
+    // public function g7_price()
+    // {
+    //     return $this->hasOne(G7ProductPrice::class, 'product_id')->where('g7_id', Auth::user()->g7_id);
+    // }
 
     public static function searchByFilter($request)
     {
         $result = self::with([
             'category',
             'image',
-            'g7_price'
         ]);
 
         if (Auth::user()->g7_id) {
@@ -111,7 +110,6 @@ class Product extends BaseModel
                     $q->select(['id', 'name']);
                 },
                 'image',
-                'g7_price'
             ])
             ->firstOrFail();
     }

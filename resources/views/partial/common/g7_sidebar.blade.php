@@ -196,12 +196,12 @@
                                     <p>Danh sách Hàng hóa</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('G7Product.editPrice') }}" class="nav-link {{ Request::routeIs('G7Product.editPrice') ? 'active' : '' }}">
                                     <i class="far fas  fa-angle-right nav-icon"></i>
                                     <p>Cập nhật giá hàng hóa</p>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
 

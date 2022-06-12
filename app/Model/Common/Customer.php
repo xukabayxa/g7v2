@@ -157,6 +157,7 @@ class Customer extends BaseModel
 
     public static function getForSelect() {
         return self::select(['id', 'name'])
+            ->where('g7_id', Auth::user()->g7_id)
             ->orderBy('name', 'asc')
             ->get();
     }

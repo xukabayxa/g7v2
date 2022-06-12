@@ -33,7 +33,6 @@ class ProductController extends Controller
 	{
 		$data = ThisModel::where('g7_id', Auth::user()->g7_id)->with([
 			'image',
-			'g7_price'
 		]);
 		if($request->has('category_id')) {
 			$data->where('product_category_id', $request->category_id);

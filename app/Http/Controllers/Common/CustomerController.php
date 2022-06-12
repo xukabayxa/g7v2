@@ -125,11 +125,11 @@ class CustomerController extends Controller
 				'name' => [
 					'required',
 					Rule::unique('customers')->where(function ($query) use ($request) {
-						return $query->where('mobile', $request->mobile);
+						return $query->where('g7_id', Auth::user()->g7_id);
 					}),
 				],
 				'mobile' => 'required|regex:/^(0)[0-9]{9,11}$/',
-				'email' => 'nullable|email|unique:customers,email',
+				'email' => 'nullable|email',
 				'birthday' => 'nullable|before:tomorrow',
 				'gender' => 'required|in: 0,1',
 				'customer_group_id' => 'nullable|exists:customer_groups,id',
@@ -223,7 +223,7 @@ class CustomerController extends Controller
 				'name' => [
 					'required', 'max:180',
 					Rule::unique('customers')->where(function ($query) use ($request) {
-						return $query->where('mobile', $request->mobile);
+						return $query->where('g7_id', Auth::user()->g7_id);
 					})->ignore($id),
 				],
 				'mobile' => 'required|regex:/^(0)[0-9]{9,11}$/',
