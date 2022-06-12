@@ -80,7 +80,7 @@
                             <p>Phiếu chi</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('ReceiptVoucherType.index') }}" class="nav-link {{ Request::routeIs('ReceiptVoucherType.index') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Loại Phiếu Thu</p>
@@ -91,7 +91,7 @@
                             <i class="far fas  fa-angle-right nav-icon"></i>
                             <p>Loại Phiếu Chi</p>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item">
                         <a href="{{ route('WarehouseReport.fundReport') }}" class="nav-link {{ Request::routeIs('WarehouseReport.fundReport') ? 'active' : '' }}">

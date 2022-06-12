@@ -31,16 +31,13 @@ class Product extends BaseModel
 
     public function canDelete()
     {
-//        $user = auth()->user();
-//        if ($user->can('Xóa hàng hóa')) {
-//            return true;
-//        }
-        return true;
+        // Auth::user()->g7_id == $this->g7_id ? true : false;
+        return false;
     }
 
     public function canEdit()
     {
-        return Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK;
+        return Auth::user()->g7_id == $this->g7_id ? true : false;
     }
 
     public function g7_products()

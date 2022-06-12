@@ -8,11 +8,11 @@ Quản lý hàng hóa - vật tư
 @endsection
 
 @section('buttons')
-
+@if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7)
 <a href="javascript:void(0)" class="btn btn-outline-success" data-toggle="modal" href="javascript:void(0)" data-target="#createProduct" class="btn btn-info" ng-click="errors = null"><i class="fa fa-plus"></i> Thêm mới</a>
 <a href="javascript:void(0)" target="_blank" data-href="{{ route('Product.exportExcel') }}" class="btn btn-info export-button"><i class="fas fa-file-excel"></i> Xuất file excel</a>
 <a href="javascript:void(0)" target="_blank" data-href="{{ route('Product.exportPDF') }}" class="btn btn-warning export-button"><i class="far fa-file-pdf"></i> Xuất file pdf</a>
-
+@endif
 @endsection
 
 @section('content')
