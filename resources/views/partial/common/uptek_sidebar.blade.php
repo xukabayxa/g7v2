@@ -116,14 +116,14 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ Request::routeIs('Supplier.index') ? 'active' : '' }}">
+            {{-- <li class="nav-item {{ Request::routeIs('Supplier.index') ? 'active' : '' }}">
                 <a href="{{ route('Supplier.index') }}" class="nav-link">
                     <i class="fas fa-truck nav-icon"></i>
                     <p>
                         Nhà cung cấp
                     </p>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item has-treeview {{ request()->is('common/cars*') || request()->is('vehicle-manufacts*') || request()->is('vehicle-types*') || request()->is('vehicle-categories*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-th"></i>
@@ -298,35 +298,6 @@
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
-            </li>
-            <li class="nav-item has-treeview  {{ request()->is('uptek/configs') || request()->is('uptek/customer-levels') || request()->is('uptek/accumulate-point/*') ? 'menu-open' : '' }} ">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-cog"></i>
-                    <p>
-                        Cấu hình hệ thống
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('Config.edit') }}" class="nav-link  {{ Request::routeIs('Config.edit') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Cấu hình chung</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('AccumulatePoint.edit') }}" class="nav-link  {{ Request::routeIs('AccumulatePoint.edit') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Cấu hình điểm thường</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('CustomerLevel.index') }}" class="nav-link  {{ Request::routeIs('CustomerLevel.index') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Quản lý level khách hàng</p>
-                        </a>
-                    </li>
-                </ul>
             </li>
         </ul>
     </nav>
