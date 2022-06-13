@@ -9,7 +9,7 @@
 			this.statuses = @json(App\Model\G7\Bill::STATUSES);
 			this.service_groups = @json(App\Model\Uptek\Service::getForSelect());
 			this.product_caterories = @json(App\Model\Common\ProductCategory::getForSelect());
-			this.point_rate = @json(App\Model\Uptek\AccumulatePoint::getPointRate());
+			this.point_rate = @json(App\Model\G7\AccumulatePoint::getPointRate());
 			this.all_customers = @json(App\Model\Common\Customer::getForSelect());
             this.no_set = [
                 'bill_date', 'service_total_cost', 'product_total_cost', 'total_cost',

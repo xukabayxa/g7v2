@@ -96,9 +96,9 @@ class BillController extends Controller
 				if($object->canExport()) {
 					$result .= '<a href="' . route('WarehouseExport.create') . '?bill_id='.$object->id.'" title="Xuất kho" class="btn btn-sm btn-primary"><i class="fas fa-box-open"></i></a> ';
 				}
-				if($object->canReturn()) {
-					$result .= '<a href="' . route('BillReturn.create') . '?bill_id='.$object->id.'" title="Tạo hóa đơn trả" class="btn btn-sm btn-primary"><i class="fas fa-undo"></i></a> ';
-				}
+				// if($object->canReturn()) {
+				// 	$result .= '<a href="' . route('BillReturn.create') . '?bill_id='.$object->id.'" title="Tạo hóa đơn trả" class="btn btn-sm btn-primary"><i class="fas fa-undo"></i></a> ';
+				// }
 				if ($object->canDelete()) {
 					$result .= '<a href="' . route($this->route.'.delete', $object->id) . '" title="Hủy" class="btn btn-sm btn-danger confirm"><i class="fas fa-times"></i></a>';
 				}
