@@ -91,6 +91,7 @@ Quản lý hóa đơn
                     data.payer_type_id = 1;
                     data.payer_id = response.data.customer_id;
                     data.bill_id = response.data.id;
+                    console.log(data);
                     $rootScope.$emit("openQuickReceipt", data);
                     $("#quick-receipt-voucher").modal('show');
                 } else {

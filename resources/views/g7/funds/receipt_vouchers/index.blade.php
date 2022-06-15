@@ -101,6 +101,7 @@ Quản lý phiếu thu
                 if (response.success) {
 					$scope.form.data = response.data;
                     $scope.form.payer_type_name = response.payer_type_name;
+                    console.log($scope.form);
                     $('#show-modal').modal('show');
                 } else {
                     toastr.warning(response.message);

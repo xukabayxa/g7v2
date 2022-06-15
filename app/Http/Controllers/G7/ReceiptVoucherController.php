@@ -43,7 +43,6 @@ class ReceiptVoucherController extends Controller
 			'user_create',
 			'bill',
 		])->firstOrFail();
-
 		$payer_types = ThisModel::PAYER_TYPES;
 		foreach($payer_types as $val) {
 			if($val['id'] == $invoice->payer_type_id) {

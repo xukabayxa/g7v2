@@ -75,7 +75,7 @@
                 pay_type: this.pay_type,
                 note: this.note,
                 customer_id: this.customer_id,
-                bill_id: this.bill_id,
+                bill_id: this.bill_id ? this.bill_id : this.id,
             }
         }
     }
