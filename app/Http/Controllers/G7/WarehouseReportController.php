@@ -56,7 +56,7 @@ class WarehouseReportController extends Controller
     public function stockReportQuery($request, $total = false)
     {
         $export = WarehouseExportDetail::from('warehouse_export_details as wed')
-            ->join('warehouse_exports as we', 'wed.parent_id', '=', 'wed.id')
+            ->join('warehouse_exports as we', 'wed.parent_id', '=', 'we.id')
             ->where('we.g7_id', auth()->user()->g7_id)
             ->select([
                 'wed.id',
