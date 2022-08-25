@@ -58,11 +58,12 @@ class G7Employee extends BaseModel
     }
 
     public static function searchByFilter($request) {
-        $result = self::with([
+        $result = self::where('g7_id', Auth::user()->g7_id)->with([
             'user',
             'g7Info',
             'image'
         ]);
+
 
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%'.$request->name.'%');

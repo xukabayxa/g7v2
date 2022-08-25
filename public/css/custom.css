@@ -762,7 +762,7 @@ table {
     bottom: 6px;
     text-align: center;
     color: #FFF;
-    background-color: rgb(253, 126, 20, .7);
+    background-color: rgb(49, 167, 68, .7);
     width: calc(100% - 12px);
     opacity: 0.9;
     left: 6px;
@@ -806,7 +806,7 @@ table {
 }
 
 .card.customize-card-sale .card-header {
-    background: #fd7e14;
+    background: #28a745;
 }
 
 .card.customize-card-sale .card-header h6 {
