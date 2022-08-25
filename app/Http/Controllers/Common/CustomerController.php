@@ -227,10 +227,10 @@ class CustomerController extends Controller
 					})->ignore($id),
 				],
 				'mobile' => 'required|regex:/^(0)[0-9]{9,11}$/',
-				'email' => 'email|unique:customers,email,'.$id,
+				'email' => 'nullable|email|unique:customers,email,'.$id,
 				'birthday' => 'before:tomorrow',
 				'gender' => 'required|in: 0,1',
-				'customer_group_id' => 'required|exists:customer_groups,id',
+				'customer_group_id' => 'nullable|exists:customer_groups,id',
 				'province_id' => 'required|exists:provinces,id',
 				'district_id' => [
 					'required',

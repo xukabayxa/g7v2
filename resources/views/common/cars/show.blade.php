@@ -15,17 +15,23 @@
                                     <input type="text" date class="form-control" ng-model="form.license_plate" disabled="disabled">
                                 </div>
                             </div>
+                    
                             <div class="form-group custom-group">
                                 <label class="form-label required-label">Chủ xe</label>
-                                <ui-select ng-model="form.customer_ids" remove-selected="false" multiple disabled="disabled">
+                                <ui-select remove-selected="false" multiple ng-model="form.customer_ids">
                                     <ui-select-match placeholder="Chọn chủ xe">
                                         <% $item.name %>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="item.id as item in (form.all_customers | filter: $select.search)">
+                                    <ui-select-choices repeat="item.id as item in (form.g7_customers | filter: $select.search)">
                                         <span ng-bind="item.name"></span>
                                     </ui-select-choices>
                                 </ui-select>
+                              
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong><% errors.customer_ids[0] %></strong>
+                                </span>
                             </div>
+
                         </div>
                         <div class=" col-md-6">
                             <div class="form-group custom-group">

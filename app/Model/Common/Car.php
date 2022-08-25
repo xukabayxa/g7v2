@@ -91,7 +91,7 @@ class Car extends BaseModel
 
         if($request->customer_mobile) {
             $result = $result->whereHas('customers', function ($query) use($request) {
-                $query->where('mobile','like','%'.$request->customer_mobile.'%');
+                $query->where('mobile','like','%'.$request->customer_mobile.'%')->orWhere('name','like','%'.$request->customer_mobile.'%');
             });
         }
 

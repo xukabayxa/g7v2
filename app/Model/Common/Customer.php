@@ -117,29 +117,30 @@ class Customer extends BaseModel
             $result = $result->where('name', 'like', '%'.$request->name_mobile.'%')->orWhere('mobile','like','%'.$request->name_mobile.'%');
         }
 
-        // if (!empty($request->mobile)) {
-        //     $result = $result->where('mobile', 'like', '%'.$request->mobile.'%');
-        // }
+        if (!empty($request->mobile)) {
+            $result = $result->where('mobile', 'like', '%'.$request->mobile.'%');
+        }
 
-        // if (!empty($request->email)) {
-        //     $result = $result->where('email', 'like', '%'.$request->email.'%');
-        // }
+        if (!empty($request->email)) {
+            $result = $result->where('email', 'like', '%'.$request->email.'%');
+        }
 
-        // if (!empty($request->province)) {
-        //     $result = $result->where('province_id', $request->province);
-        // }
+        if (!empty($request->province)) {
+            $result = $result->where('province_id', $request->province);
+        }
 
-        // if (!empty($request->district)) {
-        //     $result = $result->where('district_id', $request->district);
-        // }
+        if (!empty($request->district)) {
+            $result = $result->where('district_id', $request->district);
+        }
 
-        // if (!empty($request->ward)) {
-        //     $result = $result->where('ward_id', $request->ward);
-        // }
+        if (!empty($request->ward)) {
+            $result = $result->where('ward_id', $request->ward);
+        }
 
-        // if ($request->status === 0 || $request->status === '0' || !empty($request->status)) {
-        //     $result = $result->where('status', $request->status);
-        // }
+        if ($request->status === 0 || $request->status === '0' || !empty($request->status)) {
+            $result = $result->where('status', $request->status);
+        }
+        
         if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
             $result = $result->where('g7_id', Auth::user()->g7_id);
         }

@@ -134,7 +134,7 @@ Quản lý xe
         @include('common.cars.formJs')
         // Show
         $('#table-list').on('click', '.show', function () {
-            $scope.data = getRowData(this, datatable)
+            $scope.data = getRowData(this, datatable);
             sendRequest({
                 type: "GET",
                 url: "/common/cars/" + $scope.data.id + "/getDataForShow",

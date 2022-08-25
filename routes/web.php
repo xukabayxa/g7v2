@@ -608,7 +608,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Nhóm khách hàng
-    Route::group(['prefix' => 'customer-groups', 'middleware' => 'checkType:'.User::SUPER_ADMIN.','.User::UPTEK], function () {
+    Route::group(['prefix' => 'customer-groups', 'middleware' => 'checkType:'.User::G7], function () {
 		Route::get('/create', 'Common\CustomerGroupController@create')->name('CustomerGroup.create')->middleware('checkPermission:Thêm mới nhóm khách hàng');
 		Route::post('/', 'Common\CustomerGroupController@store')->name('CustomerGroup.store')->middleware('checkPermission:Thêm mới nhóm khách hàng');
 		Route::get('/', 'Common\CustomerGroupController@index')->name('CustomerGroup.index');

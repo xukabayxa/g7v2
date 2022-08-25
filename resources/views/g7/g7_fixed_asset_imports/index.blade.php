@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-Quản lý hóa đơn nhập nhập tài sản cố định
+Quản lý hóa đơn nhập tài sản cố định
 @endsection
 
 @section('content')
