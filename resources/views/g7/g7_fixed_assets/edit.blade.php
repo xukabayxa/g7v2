@@ -13,7 +13,7 @@ Chỉnh sửa tài sản cố định {{ $object->code }}
 </div>
 @endsection
 @section('script')
-@include('partial.classes.G7.G7FixedAsset')
+@include('partial.classes.g7.G7FixedAsset')
 <script>
   app.controller('FixedAsset', function ($scope, $http) {
     $scope.form = new G7FixedAsset(@json($object), {scope: $scope});
