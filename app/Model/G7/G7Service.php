@@ -59,8 +59,21 @@ class G7Service extends BaseModel
         return $this->hasMany(G7ServiceVehicleCategoryProduct::class, 'g7_service_id', 'id');
     }
 
-    public function canDelete() {
+    public function canDelete() 
+    {
+        if(Auth::user()->type == User::G7) {
+            if($this->bills->count() > 0 || $this->status == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         return false;
+    }
+
+    public function canRestore()
+    {
+        return true;
     }
 
     public static function searchByFilter($request) {

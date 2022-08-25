@@ -68,15 +68,21 @@ class Service extends Model
         return $this->belongsTo(G7Info::class,'g7_id');
     }
 
-    public function canDelete() {
+    public function canDelete() 
+    {
         if(Auth::user()->type == User::SUPER_ADMIN || Auth::user()->type == User::UPTEK ||  Auth::user()->type == User::G7) {
-            if($this->bills->count() > 0) {
+            if($this->bills->count() > 0 || $this->status == 0) {
                 return false;
             } else {
                 return true;
             }
         }
         return false;
+    }
+
+    public function canRestore()
+    {
+        return $this->status == 0 ? true : false;
     }
 
     public function canEdit()

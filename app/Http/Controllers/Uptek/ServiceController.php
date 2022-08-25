@@ -65,6 +65,10 @@ class ServiceController extends Controller
 				if ($object->canDelete()) {
 					$result .= '<a href="' . route($this->route.'.delete', $object->id) . '" title="Xóa" class="btn btn-sm btn-danger confirm"><i class="fas fa-times"></i></a>';
 				}
+
+				if ($object->canRestore()) {
+					$result .= '<a href="' . route($this->route.'.restore', $object->id) . '" title="Mở khoá" class="btn btn-sm btn-info confirm"><i class="far fa-redo"></i></a>';
+				}
 				return $result;
 			})
 			->addIndexColumn()

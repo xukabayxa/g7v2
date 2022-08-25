@@ -399,6 +399,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', 'G7\G7ServiceController@index')->name('G7Service.index');
             Route::get('/{id}/edit', 'G7\G7ServiceController@edit')->name('G7Service.edit');
             Route::get('/{id}/delete', 'G7\G7ServiceController@delete')->name('G7Service.delete');
+            Route::get('/{id}/restore', 'G7\G7ServiceController@restore')->name('G7Service.restore');
             Route::get('/searchData', 'G7\G7ServiceController@searchData')->name('G7Service.searchData');
             Route::get('/searchDataForBill', 'G7\G7ServiceController@searchDataForBill')->name('G7Service.searchDataForBill');
             Route::get('/getDataForBill', 'G7\G7ServiceController@getDataForBill')->name('G7Service.getDataForBill');

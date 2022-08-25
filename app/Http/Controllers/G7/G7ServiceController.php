@@ -67,7 +67,12 @@ class G7ServiceController extends Controller
                     $result .= '<a href="' . route($this->route.'.edit', $object->id) . '" title="Sửa" class="btn btn-sm btn-primary edit"><i class="fas fa-pencil-alt"></i></a> ';
                 }
                 if ($object->canDelete()) {
+                    
                     $result .= '<a href="' . route($this->route.'.delete', $object->id) . '" title="Xóa" class="btn btn-sm btn-danger confirm"><i class="fas fa-times"></i></a>';
+                }
+                if ($object->canRestore()) {
+                    
+                    $result .= '<a href="' . route($this->route.'.restore', $object->id) . '" title="Khôi phục lại" class="btn btn-sm btn-success confirm"><i class="fa fa-redo"></i></a>';
                 }
                 return $result;
             })
@@ -265,6 +270,17 @@ class G7ServiceController extends Controller
     public function delete($id) {
         $object = ThisModel::findOrFail($id);
         $object->status = 0;
+        $object->save();
+        $message = array(
+            "message" => "Thao tác thành công!",
+            "alert-type" => "success"
+        );
+        return redirect()->route($this->route.'.index')->with($message);
+    }
+
+    public function restore($id) {
+        $object = ThisModel::findOrFail($id);
+        $object->status = 1;
         $object->save();
         $message = array(
             "message" => "Thao tác thành công!",
