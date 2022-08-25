@@ -88,7 +88,7 @@ class G7Employee extends BaseModel
     public static function getForSelect() {
         $ids = User::query()->pluck('employee_id')->toArray();
 
-        return self::where('status', 1)->whereNotIn('id', $ids)
+        return self::where('g7_id', Auth::user()->g7_id)
             ->select(['id', 'name','mobile', 'email'])
             ->orderBy('name', 'ASC')
             ->get();

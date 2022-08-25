@@ -20,7 +20,7 @@ Thêm mới người dùng
 <script>
 	app.controller('createG7User', function ($scope, $http) {
 	$scope.form = new G7User({}, {scope: $scope, mode: 'create'});
-
+	console.log($scope.fomr);
 	@include('g7.users.formJs')
 
 	$scope.submit = function() {
