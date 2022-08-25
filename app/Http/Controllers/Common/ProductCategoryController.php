@@ -58,6 +58,7 @@ class ProductCategoryController extends Controller
 			$request->all(),
 			[
 				'name' => 'required|unique:product_categories,name,'.$id,
+				'g7_id' => 'required|exists:g7_infos,id'
 			]
 		);
 
@@ -79,6 +80,7 @@ class ProductCategoryController extends Controller
 				return Response::json($json);
 			}
 			$object->name = $request->name;
+			$object->g7_id = $request->g7_id;
 			$object->status = $request->status;
 			$object->save();
 
@@ -98,6 +100,7 @@ class ProductCategoryController extends Controller
 			$request->all(),
 			[
 				'name' => 'required|unique:product_categories,name',
+				'g7_id' => 'required|exists:g7_infos,id'
 			]
 		);
 
@@ -114,6 +117,7 @@ class ProductCategoryController extends Controller
 		try {
 			$object = new ThisModel();
 			$object->name = $request->name;
+			$object->g7_id = $request->g7_id;
 			$object->save();
 
 			DB::commit();
@@ -158,11 +162,4 @@ class ProductCategoryController extends Controller
             ];
         });
     }
-
-    // Xuất PDF
-    // public function exportPDF() {
-    //     $data = ThisModel::all();
-    //     $pdf = PDF::loadView($this->view.'.pdf', compact('data'));
-    //     return $pdf->download('danh_sach_hang_xe.pdf');
-    // }
 }

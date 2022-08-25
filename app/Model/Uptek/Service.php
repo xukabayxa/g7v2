@@ -87,8 +87,6 @@ class Service extends Model
     public static function searchByFilter($request) {
         $result = self::query();
 
-        $result = $result->where('g7_id', auth()->user()->g7_id);
-
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%'.$request->name.'%');
         }
@@ -104,6 +102,8 @@ class Service extends Model
         if ($request->status === 0 || $request->status === '0' || !empty($request->status)) {
             $result = $result->where('status', $request->status);
         }
+
+        $result = $result->where('g7_id', auth()->user()->g7_id);
 
         $result = $result->orderBy('created_at','desc')->get();
         return $result;

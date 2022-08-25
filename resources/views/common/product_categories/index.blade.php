@@ -130,6 +130,7 @@ Quản lý dòng xe
         $scope.submit = function() {
             $scope.loading.submit = true;
             let url = "/common/product-categories/" + $scope.formEdit.id + "/update";
+            $scope.formEdit.g7_id = {{ Auth::user()->g7_id }};
             let data = $scope.formEdit;
             $.ajax({
                 type: 'POST',

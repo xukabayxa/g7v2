@@ -25,6 +25,8 @@ class ProductCategory extends BaseModel
             $result = $result->where('status', $request->status);
         }
 
+        $result = $result->where('g7_id', Auth::user()->g7_id);
+
         $result = $result->orderBy('created_at','desc');
         return $result;
     }
@@ -32,6 +34,7 @@ class ProductCategory extends BaseModel
     public static function getForSelect() {
         return self::select(['id', 'name'])
             ->where('status', 1)
+            ->where('g7_id', Auth::user()->g7_id)
             ->orderBy('name', 'ASC')
             ->get();
     }

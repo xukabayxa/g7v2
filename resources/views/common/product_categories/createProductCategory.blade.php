@@ -43,7 +43,9 @@
         // Submit Form tạo mới
         $scope.submit = function() {
             var url = "{!! route('ProductCategory.store') !!}";
+            $scope.form.g7_id = {{ Auth::user()->g7_id }};
             var data = $scope.form;
+
             $scope.loading = true;
             $.ajax({
                 type: "POST",

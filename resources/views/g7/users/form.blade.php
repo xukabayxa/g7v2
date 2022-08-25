@@ -8,6 +8,18 @@
 				<div class="row">
 					<div class="col-md-12 col-xs-12 mb-3">
 						<div class="row">
+							<div class="col-md-6 mb-3">
+								<div class="form-group custom-group">
+									<label class="form-label required-label">Hồ sơ nhân viên</label>
+									<select class="form-control custom-select" ng-model="form.employee_id" ng-change="chooseInfo()">
+										<option value="">Chọn hồ sơ nhân viên</option>
+										<option ng-repeat="item in form.g7_employees" value="<% item.id %>" ng-selected="form.employee_id == item.id"><% item.name %> - <% item.mobile %></option>
+									</select>
+									<span class="invalid-feedback d-block" role="alert">
+										<strong><% errors.employee_id[0] %></strong>
+									</span>
+								</div>
+							</div>
 							<div class="col-md-6">
 								<div class="form-group custom-group">
 									<label class="form-label required-label">Tên người dùng</label>
@@ -54,18 +66,7 @@
 									</span>
 								</div>
 							</div>
-							<div class="col-md-6 mb-3">
-								<div class="form-group custom-group">
-									<label class="form-label required-label">Hồ sơ nhân viên</label>
-									<select class="form-control custom-select" ng-model="form.employee_id" ng-change="chooseInfo()">
-										<option value="">Chọn hồ sơ nhân viên</option>
-										<option ng-repeat="item in form.g7_employees" value="<% item.id %>" ng-selected="form.employee_id == item.id"><% item.name %> - <% item.mobile %></option>
-									</select>
-									<span class="invalid-feedback d-block" role="alert">
-										<strong><% errors.employee_id[0] %></strong>
-									</span>
-								</div>
-							</div>
+							
 							<div class="col-md-6 mb-3">
 								<div class="form-group custom-group">
 									<label class="form-label required-label">Trạng thái</label>

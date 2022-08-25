@@ -113,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 
         // Phân loại vật tư
-        Route::group(['prefix' => 'product-categories', 'middleware' => 'checkType:'.User::UPTEK], function () {
+        Route::group(['prefix' => 'product-categories', 'middleware' => 'checkType:'.User::G7], function () {
             Route::get('/create', 'Common\ProductCategoryController@create')->name('ProductCategory.create')->middleware('checkPermission:Thêm loại hàng hóa');
             Route::post('/', 'Common\ProductCategoryController@store')->name('ProductCategory.store')->middleware('checkPermission:Thêm loại hàng hóa');
             Route::post('/{id}/update', 'Common\ProductCategoryController@update')->name('ProductCategory.update')->middleware('checkPermission:Cập nhật loại hàng hóa');

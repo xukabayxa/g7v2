@@ -196,6 +196,13 @@
                                     <p>Danh sách Hàng hóa</p>
                                 </a>
                             </li>
+                            
+                            <li class="nav-item">
+                                <a href="{{ route('ProductCategory.index') }}" class="nav-link {{ Request::routeIs('ProductCategory.index') ? 'active' : '' }}">
+                                    <i class="far fas  fa-angle-right nav-icon"></i>
+                                    <p>Loại Hàng hóa</p>
+                                </a>
+                            </li>
                             {{-- <li class="nav-item">
                                 <a href="{{ route('G7Product.editPrice') }}" class="nav-link {{ Request::routeIs('G7Product.editPrice') ? 'active' : '' }}">
                                     <i class="far fas  fa-angle-right nav-icon"></i>
@@ -205,6 +212,12 @@
                         </ul>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{ route('CustomerGroup.index') }}" class="nav-link {{ Request::routeIs('CustomerGroup.index') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Nhóm Khách hàng</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('Customer.index') }}" class="nav-link {{ Request::routeIs('Customer.index') ? 'active' : '' }}">
                             <i class="far fas  fa-angle-right nav-icon"></i>

@@ -67,10 +67,6 @@ class Product extends BaseModel
             'image',
         ]);
 
-        if (Auth::user()->g7_id) {
-            $result = $result->where('g7_id', Auth::user()->g7_id);
-        }
-
         if (!empty($request->name)) {
             $result = $result->where('name', 'like', '%' . $request->name . '%');
         }
@@ -85,6 +81,10 @@ class Product extends BaseModel
 
         if ($request->status === 0 || $request->status === '0' || !empty($request->status)) {
             $result = $result->where('status', $request->status);
+        }
+
+        if (Auth::user()->g7_id) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
         }
 
         $result = $result->orderBy('created_at', 'desc')->get();
