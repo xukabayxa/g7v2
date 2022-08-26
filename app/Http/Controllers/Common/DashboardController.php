@@ -147,7 +147,6 @@ class DashboardController extends Controller
 
         $reminders->with([
             'customers',
-            'licensePlate'
         ])->get();
 
         return view($this->view . '.dash', compact('data', 'sales', 'total_receipt', 'reminders'));
