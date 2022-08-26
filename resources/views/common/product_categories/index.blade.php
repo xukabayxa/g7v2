@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-Quản lý dòng xe
+Quản lý loại vật tư
 @endsection
 
 @section('buttons')

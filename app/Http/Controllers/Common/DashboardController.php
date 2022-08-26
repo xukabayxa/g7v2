@@ -38,6 +38,7 @@ class DashboardController extends Controller
         if (Auth::user()->type == 3 || Auth::user()->type == 5) {
             $g7_id = Auth::user()->g7_id;
             $g7_ids[] = $g7_id;
+            
             // Số hóa đơn bán trong ngày
             $data['bills'] = Bill::where('g7_id', $g7_id)->where('status', 1)->whereDate('bill_date',
                 date('Y-m-d'))->count();

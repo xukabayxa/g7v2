@@ -250,6 +250,7 @@ Quản lý hàng hóa - vật tư
         $('#table-list').on('click', '.show-product', function () {
             $scope.data = getRowData(this, datatable);
             $scope.formEdit = new Product($scope.data, {scope: $scope});
+            console.log($scope.formEdit);
             $scope.$apply();
             $('#show-modal').modal('show');
         });

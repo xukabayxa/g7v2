@@ -12,6 +12,8 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use PDF;
 use App\Http\Controllers\Controller;
 use \Carbon\Carbon;
+use Illuminate\Validation\Rule;
+use Auth;
 use DB;
 
 class ProductCategoryController extends Controller
@@ -99,7 +101,12 @@ class ProductCategoryController extends Controller
 		$validate = Validator::make(
 			$request->all(),
 			[
-				'name' => 'required|unique:product_categories,name',
+				'name' => [
+					'required', 'max:180',
+					Rule::unique('product_categories')->where(function ($query) use ($request) {
+						return $query->where('g7_id', Auth::user()->g7_id);
+					}),
+				],
 				'g7_id' => 'required|exists:g7_infos,id'
 			]
 		);

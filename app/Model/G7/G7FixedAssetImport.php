@@ -84,6 +84,8 @@ class G7FixedAssetImport extends BaseModel
             $result = $result->where('status', $request->status);
         }
 
+        $result = $result->where('g7_id', Auth::user()->g7_id);
+
         $result = $result->orderBy('created_at','desc')->get();
         return $result;
     }
