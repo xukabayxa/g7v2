@@ -178,7 +178,7 @@ Trang chủ
                             <label for="todoCheck1"></label>
                         </div> --}}
                         <!-- todo text -->
-                        <span class="text">Xe: <strong style="color: blue">{{ $item->licensePlate->license_plate }}</strong> - <b>{{ $item->customers[0]->name }} - {{ $item->customers[0]->mobile }}</b></span>
+                        <span class="text">Xe: <strong style="color: blue">{{ $item->license_plate }}</strong> - <b>{{ $item->customers[0]->name }} - {{ $item->customers[0]->mobile }}</b></span>
                         <!-- Emphasis label -->
                         {{-- <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small> --}}
                         <!-- General tools such as edit or delete-->
