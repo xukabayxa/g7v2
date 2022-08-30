@@ -156,7 +156,7 @@ class PromoCampaignController extends Controller
 			$object->start_date = $request->start_date;
 			$object->end_date = $request->end_date;
 			$object->limit = $request->limit;
-			if (auth()->user()->type != User::G7) $object->for_all = $request->for_all == 'true';
+			$object->g7_id = Auth::user()->g7_id;
 			$object->save();
 			$object->generateCode();
 
@@ -264,8 +264,6 @@ class PromoCampaignController extends Controller
             }
 
 			$object->syncCheckpoints($request->checkpoints);
-			if (auth()->user()->type == User::G7) $object->g7s()->sync([auth()->user()->g7_id]);
-			else if (!$object->for_all) $object->g7s()->sync($request->g7_ids);
 
 			DB::commit();
 			return successResponse();

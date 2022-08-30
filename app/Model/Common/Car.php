@@ -118,16 +118,11 @@ class Car extends BaseModel
 
     public static function getForSelect() {
         return self::select(['id', 'license_plate as name'])
+            ->where('g7_id',Auth::user()->g7_id)
+            ->with('customers')
             ->orderBy('license_plate', 'ASC')
             ->get();
     }
-
-    // public static function getDataForEdit() {
-    //     return self::join('license_plates as lp', 'cars.license_plate_id', '=', 'lp.id')
-    //         ->select(['cars.id', 'lp.license_plate as name'])
-    //         ->orderBy('lp.license_plate', 'ASC')
-    //         ->get();
-    // }
 
     public static function getData($id) {
         return self::where('id', $id)

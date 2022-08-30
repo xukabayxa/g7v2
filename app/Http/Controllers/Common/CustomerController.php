@@ -231,15 +231,15 @@ class CustomerController extends Controller
 				'birthday' => 'before:tomorrow',
 				'gender' => 'required|in: 0,1',
 				'customer_group_id' => 'nullable|exists:customer_groups,id',
-				'province_id' => 'required|exists:provinces,id',
+				'province_id' => 'nullable|exists:provinces,id',
 				'district_id' => [
-					'required',
+					'nullable',
 					Rule::exists('districts','id')->where(function($query) use ($request) {
 						$query->where('parent_code',$request->province_id);
 					})
 				],
 				'ward_id' => [
-					'required',
+					'nullable',
 					Rule::exists('wards','id')->where(function($query) use ($request) {
 						$query->where('parent_code', $request->district_id);
 					})

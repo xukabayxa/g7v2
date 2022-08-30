@@ -20,7 +20,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
+@include('common.cars.createCar')
 <script>
     app.controller('BookingCreate', function ($scope, $http) {
         $scope.form = new Booking({}, {scope: $scope});

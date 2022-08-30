@@ -33,7 +33,7 @@
 												</span>
 											</td>
 											<td>
-												<input class="form-control text-right" currency type="text" ng-model="p.price">
+												<input class="form-control text-right input-price" currency type="text" ng-model="p.price">
 												<span class="invalid-feedback d-block" role="alert">
 													<strong><% errors['details.' + $index + '.price'][0] %></strong>
 												</span>

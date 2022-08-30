@@ -3,6 +3,7 @@
         statuses = @json(\App\Model\Common\Booking::STATUSES);
         // customers = @json(\App\Model\Common\Customer::getForSelect());
         g7 = @json(\App\Model\Uptek\G7Info::getForSelect());
+        cars = @json(\App\Model\Common\Car::getForSelect());
 
         before(form) {
             this.no_set = ['booking_time'];
@@ -19,14 +20,6 @@
         set booking_time(value) {
             this._booking_time = dateSetter(value, "HH:mm DD/MM/YYYY", 'YYYY-MM-DD HH:mm');
         }
-
-        // get customer_id() {
-        //     return this._customer_id;
-        // }
-
-        // set customer_id(value) {
-        //     this._customer_id = value;
-        // }
 
         get g7_id() {
             return this._g7_id;

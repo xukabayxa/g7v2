@@ -183,11 +183,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo('App\Model\G7\G7Employee','employee_id','id');
     }
 
-    // public function recipient()
-    // {
-    //     return $this->morphOne(PaymentVoucher::class, 'recipientale');
-    // }
-
     public function receiptVoucher()
     {
         return $this->morphOne(ReceiptVoucher::class, 'payer');

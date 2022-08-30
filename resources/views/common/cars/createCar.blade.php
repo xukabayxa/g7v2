@@ -38,7 +38,7 @@
             document.getElementById("create-car-form").reset();
         })
 
-        createVehicleCategory = function(response) {
+        createVecreateVehicleTypehicleCategory = function(response) {
             $scope.form.categories.push(response);
             $scope.form.category = response.id;
         }
@@ -48,7 +48,7 @@
             $scope.form.manufact_id = response.id;
         }
 
-        createVehicleType = function(response) {
+         = function(response) {
             $scope.form.types[$scope.form.manufact_id].push(response);
             $scope.form.type_id = response.id;
         }

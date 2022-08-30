@@ -14,7 +14,7 @@ Quản lý nhóm khách hàng
 @endsection
 @section('content')
 <div ng-cloak>
-    <div class="row">
+    <div class="row" ng-controller="customerGroup">
         <div class="col-12">
             <div class="card">
                 <!-- /.card-header -->
@@ -25,18 +25,16 @@ Quản lý nhóm khách hàng
             </div>
             {{-- Form sửa --}}
             <div class="modal fade" id="editCustomerGroup" tabindex="-1" role="dialog" aria-hidden="true">
-                <form action="#" method="POST" role="form" id="editCustomerGroupForm">
-                    @csrf
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="semi-bold">Sửa nhóm</h4>
+                                <h4 class="semi-bold">Sửa nhóm khách hàng</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label class="form-label">Tên nhóm</label>
                                     <span class="text-danger">(*)</span>
-                                    <input class="form-control" type="text" name="name" ng-model="editing.name">
+                                    <input class="form-control" type="text" ng-model="form.name">
                                     <span class="invalid-feedback d-block" role="alert">
                                         <strong><% errors.name[0] %></strong>
                                     </span>
@@ -44,24 +42,26 @@ Quản lý nhóm khách hàng
 
                                 <div class="form-group">
                                     <label class="form-label">Trạng thái</label>
-                                    <select class="form-control" name="status" ng-model="editing.status">
+                                    <select class="form-control" ng-model="form.status">
                                         <option value="1">Hoạt động</option>
                                         <option value="0">Khóa</option>
                                     </select>
-                                    <span class="invalid-feedback d-block" role="alert" ng-if="errors && errors.status">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong><% errors.status[0] %></strong>
                                     </span>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-success" ng-disabled="loading"><i class="fa fa-save"></i> Lưu</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-disabled="loading"><i class="fa fa-remove"></i> Hủy
+                                <button type="button" class="btn btn-success btn-cons" ng-click="submit()" ng-disabled="loading.submit">
+                                    <i ng-if="!loading.submit" class="fa fa-save"></i>
+                                    <i ng-if="loading.submit" class="fa fa-spin fa-spinner"></i>
+                                    Lưu
                                 </button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i> Hủy</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
                     </div>
-                </form>
             </div>
         </div>
     </div>
@@ -93,7 +93,6 @@ Quản lý nhóm khách hàng
 					}
 				}
 			},
-            {data: 'status', title: "Trạng thái"},
 			{data: 'created_at', title: "Ngày tạo"},
 			{data: 'created_by', title: "Người tạo"},
 			{data: 'updated_by', title: "Người sửa"},
@@ -120,6 +119,51 @@ Quản lý nhóm khách hàng
         datatable.ajax.reload();
     }
 
+    app.controller('customerGroup', function ($scope, $rootScope, $http) {
+        $scope.form = {};
+        $scope.loading = {};
+
+        $('#table-list').on('click', '.edit', function () {
+            $scope.form = getRowData(this, datatable);
+            $scope.errors = null;
+            $scope.$apply();
+            $('#editCustomerGroup').modal('show');
+        });
+        $scope.submit = function() {
+            $scope.loading.submit = true;
+            let url = "/customer-groups/" + $scope.form.id + "/update";
+            let data = $scope.form;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: data,
+                success: function(response) {
+                    if (response.success) {
+                        $('#editCustomerGroup').modal('hide');
+                        datatable.ajax.reload();
+
+                        toastr.success(response.message);
+                    } else {
+                        toastr.warning(response.message);
+                        $scope.errors = response.errors;
+                    }
+                },
+                error: function(e) {
+                    toastr.error('Đã có lỗi xảy ra');
+                },
+                complete: function() {
+                    $scope.loading.submit = false;
+                    $scope.$applyAsync();
+                }
+            });
+        }
+
+    })
+
+    
 </script>
 @include('partial.confirm')
 @endsection

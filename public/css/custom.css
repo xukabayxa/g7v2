@@ -778,7 +778,9 @@ table {
     color: #fff;
     font-weight: 300;
 }
-
+.input-price {
+    width: 120px;
+}
 .select-button {
     position: absolute;
     right: 20px;

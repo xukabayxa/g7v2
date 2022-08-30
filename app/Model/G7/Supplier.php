@@ -36,10 +36,6 @@ class Supplier extends BaseModel
     public static function searchByFilter($request) {
         $result = self::with([]);
 
-        if(Auth::user()->type == 3) {
-            $result = $result->where('g7_id', Auth::user()->g7_id);
-        }
-
         if (!empty($request->code)) {
             $result = $result->where('code', 'like', '%'.$request->code.'%');
         }
@@ -56,6 +52,10 @@ class Supplier extends BaseModel
             $result = $result->where('status', $request->status);
         }
 
+        if(Auth::user()->type == User::G7 || Auth::user()->type == User::NHAN_VIEN_G7) {
+            $result = $result->where('g7_id', Auth::user()->g7_id);
+        }
+
         $result = $result->orderBy('name','asc');
 
         return $result;
@@ -63,6 +63,7 @@ class Supplier extends BaseModel
 
     public static function getForSelect() {
         return self::select(['id', 'name'])
+            ->where('g7_id', Auth::user()->g7_id)
             ->where('status',1)
             ->orderBy('name', 'asc')
             ->get();

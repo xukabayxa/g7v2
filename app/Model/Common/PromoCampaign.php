@@ -145,8 +145,7 @@ class PromoCampaign extends BaseModel
                     $item->value = ($l['type'] == 1 && $l['value'] > 100) ? 100 : $l['value'];
                 }
                 $item->save();
-
-                if ($this->type == self::SAN_PHAM || $this->type = self::MUA_HANG_TANG_HANG) {
+                if ($this->type == self::SAN_PHAM || $this->type == self::MUA_HANG_TANG_HANG) {
                     $item->syncProducts($l['products']);
                 }
             }

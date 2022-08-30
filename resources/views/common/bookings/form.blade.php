@@ -2,11 +2,25 @@
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12">
-                <div class="form-group custom-group">
-                    <label class="form-label required-label">Biển số xe</label>
-                    <input class="form-control" type="text" ng-model="form.license_plate">
+                <div class="form-group custom-group custom-group-sale">
+                    <label class="form-label">Xe</label>
+                    <div class="input-group group-nowrap mb-3">
+                        <ui-select remove-selected="false" ng-model="form.car_id" theme="select2">
+                            <ui-select-match placeholder="Chọn xe" allow-clear="true">
+                                <% $select.selected.name %>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item.id as item in form.cars" refresh="searchCar($select.search)" refresh-delay="0">
+                                <span ng-bind="item.name"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#createCar">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
                     <span class="invalid-feedback d-block" role="alert">
-                        <strong><% errors.license_plate[0] %></strong>
+                        <strong><% errors.car_id[0] %></strong>
                     </span>
                 </div>
             </div>

@@ -35,7 +35,6 @@ Chỉnh sửa hóa đơn {{ $object->code }}
     $scope.submit = function(status) {
       $scope.loading.submit = true;
       let data = $scope.form.submit_data;
-      console.log(data);
       data.status = status;
       $.ajax({
         type: 'POST',
