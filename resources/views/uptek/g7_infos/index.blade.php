@@ -4,11 +4,11 @@
 @endsection
 
 @section('title')
-Quản lý hồ sơ Gara  11
+Quản lý hồ sơ Gara
 @endsection
 
 @section('buttons')
-<a href="javascript:void(0)p" class="btn btn-outline-success" data-toggle="modal" href="javascript:void(0)" data-target="#create-g7-info" class="btn btn-info" ng-click="errors = null"><i class="fa fa-plus"></i> Thêm mới</a>
+<a href="javascript:void(0)" class="btn btn-outline-success" data-toggle="modal" href="javascript:void(0)" data-target="#create-g7-info" class="btn btn-info" ng-click="errors = null"><i class="fa fa-plus"></i> Thêm mới</a>
 <a href="{{ route('G7Info.exportExcel') }}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Xuất file excel</a>
 <a href="{{ route('G7Info.exportPDF') }}" class="btn btn-warning"><i class="far fa-file-pdf"></i> Xuất file pdf</a>
 @endsection
