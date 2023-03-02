@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-Quản lý hồ sơ Gara
+Quản lý hồ sơ Gara  11
 @endsection
 
 @section('buttons')
