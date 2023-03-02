@@ -66,7 +66,7 @@
                         </ui-select-choices>
                     </ui-select>
                 </div>
-                @if(Auth::user()->typpe == 1)
+                @if(Auth::user()->type == 1)
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#createVehicleManufact"><i class="fa fa-plus"></i></button>
                 </div>
@@ -89,9 +89,9 @@
                         </ui-select-choices>
                     </ui-select>
                 </div>
-                @if(Auth::user()->typpe == 1)
+                @if(Auth::user()->type == 1)
                 <div class="input-group-append">
-                    <button class="btn btn-outline-success" id="quick-type" type="button" ng-disabled="!form.manufact_id"><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-outline-success" id="quick-type" type="button" ng-disabled="!form.manufact_id"  data-toggle="modal" data-target="#createVehicleType"><i class="fa fa-plus"></i></button>
                 </div>
                 @endif
             </div>

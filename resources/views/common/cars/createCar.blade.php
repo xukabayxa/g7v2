@@ -48,7 +48,7 @@
             $scope.form.manufact_id = response.id;
         }
 
-         = function(response) {
+        createVehicleType = function(response) {
             $scope.form.types[$scope.form.manufact_id].push(response);
             $scope.form.type_id = response.id;
         }
